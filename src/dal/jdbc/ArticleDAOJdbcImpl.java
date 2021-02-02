@@ -53,7 +53,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 
 			while (rs.next()) {
 					art = new Article(
-						rs.getInt("no_article"),
+						1,
 						rs.getString("nom_article"),
 						rs.getString("description"),
 						rs.getTimestamp("date_debut_enchere"),
@@ -65,8 +65,9 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 						rs.getString("etat_vente"), 
 						rs.getString("image")
 					);
+					liste.add(art);
+
 				}
-				liste.add(art);
 		} catch (SQLException e) {
 			throw new SQLException("selectAll failed - " , e);
 		} finally {
