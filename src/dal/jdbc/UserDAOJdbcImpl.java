@@ -16,33 +16,14 @@ import java.util.Base64;
 
 public class UserDAOJdbcImpl implements UserDAO{
 	
-	private static final String INSERT = "INSERT [dbo].[UTILISATEURS] "
-										+ "( [pseudo],"
-										+ " [nom],"
-										+ " [prenom], "
-										+ "[email],"
-										+ " [telephone],"
-										+ " [rue], "
-										+ "[code_postal], "
-										+ "[ville], "
-										+ "[mot_de_passe],"
-										+ " [credit],"
-										+ " [administrateur])"
+	private static final String INSERT = "INSERT INTO UTILISATEURS "
+										+ "( pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
 										+ "VALUES "
-										+ "( N'?',"
-										+ " N''?',"
-										+ " N''?',"
-										+ " N''?',"
-										+ " N''?',"
-										+ " N''?', "
-										+ "N''?'"
-										+ ", N''?',"
-										+ " N''?',"
-										+ " '?, '?)";
+										+ "(  ? , 	 ? ,  ?,	  ?,	 ?,			 ?,  ?, 		  ?,     ?,			   ?,	   ?)";
 
 	@Override
 	public void insert(User u,String pw, boolean isAdmin) throws BusinessException {
-		/*if(u==null)
+		if(u==null)
 		{
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
@@ -83,7 +64,7 @@ public class UserDAOJdbcImpl implements UserDAO{
 			e1.printStackTrace();
 		}
 		
-	*/	
+	
 	}
 
 	private String encrypt(String pw) {
@@ -91,6 +72,13 @@ public class UserDAOJdbcImpl implements UserDAO{
 	   final byte[] authBytes = pw.getBytes(StandardCharsets.UTF_8);
 	   final String encoded = Base64.getEncoder().encodeToString(authBytes);
 	   return encoded;
+	}
+	
+	private String decrypt(String pw) {
+
+		final byte[] decodedBytes = Base64.getDecoder().decode(pw);
+		final String decoded = new String(decodedBytes,StandardCharsets.UTF_8);
+		return decoded;
 	}
 
 	@Override

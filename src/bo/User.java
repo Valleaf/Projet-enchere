@@ -87,11 +87,20 @@ public class User {
 	
 	
 	public User() {
-		
+		this.credit=0;
+		this.admin=false;
 	}
 	public User(String pseudo2, String nom2, String prenom2, String email2, String telephone2, String rue2,
 			String ville2, String cpo2) {
-		
+		this();
+		this.pseudo=pseudo2;
+		this.nom=nom2;
+		this.prenom=prenom2;
+		this.email=email2;
+		this.telephone=telephone2;
+		this.rue=rue2;
+		this.ville=ville2;
+		this.cpo=cpo2;		
 	}
 	
 	

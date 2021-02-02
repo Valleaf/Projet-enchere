@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bll.UserManager;
 import bo.User;
+import dal.DAOFactory;
+import dal.UserDAO;
 
 /**
  * Servlet implementation class Register
@@ -52,31 +56,34 @@ public class Register extends HttpServlet {
 		String telephone = request.getParameter("telephone");
 		String cpo = request.getParameter("cpo");
 		String ville = request.getParameter("ville");
-		//UtilisateurManager um = UserDAO.getManager();
-		
+		UserManager um = new UserManager();
+
 		
 		List<String> listeMsgError = new ArrayList<>();
+
 		
 		//Validation de chaque parametre !
 		//Pseudo doit etre unique et moins de 30 characteres
-		if(pseudo.length() > 30) {
-			listeMsgError.add("PSEUDOTROPLONG");
+		if(pseudo == null || pseudo.length() > 30) {
+			listeMsgError.add("Pseudo vide ou trop long");
 		}
+		
 		//User u = um.selectByPseudo(pseudo);
 		//if (u != null){
 		//listeMsgError.add("pseudodejaexistant");
 		//}
 		
-		if(nom.length()>30) {
-			listeMsgError.add("nomTROPLONG");
+		if(nom== null || nom.length() > 30) {
+			listeMsgError.add("Nom vide ou trop long");
 		}
-		if(prenom.length()>30) {
-			listeMsgError.add("prenomTROPLONG");
+		
+		if(prenom== null || prenom.length()>30) {
+			listeMsgError.add("prenom vide ou trop long");
 		}
 		//Le mot de passe doit etre egal a la confrimation et moins de 30caracteres
 		//minimum 8 avec caractere special, avec majuscule, minuscule
 		//Optionnellement on peut recommander un mdp a l'utilisateur
-		if (pw != pw2) {
+		if (!pw.equals(pw2)) {
 			listeMsgError.add("Le mdp et la confrimation ne sontpas egaux");
 		}
 		if (!verificationPW(pw)) {
@@ -91,11 +98,11 @@ public class Register extends HttpServlet {
 		}
 		
 		//verification que l'adresse existe vraiment
-		if(rue.length()>30) {
-			listeMsgError.add("ruetroplong");
+		if(rue==null || rue.length()>30) {
+			listeMsgError.add("ruetroplong ou vide");
 		}
-		if(ville.length()>30) {
-			listeMsgError.add("villetroplong");
+		if(ville==null || ville.length()>30) {
+			listeMsgError.add("villetroplong ou vide");
 		}
 		if(!verificationCPO(cpo)) {
 			listeMsgError.add("cpoinvalide");
@@ -103,12 +110,18 @@ public class Register extends HttpServlet {
 		
 		if(listeMsgError.size()>0) {
 			request.setAttribute("listeErreurs", listeMsgError);
+	
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/register.jsp");
 			rd.forward(request, response);
-		}
+		} else {
 		User u = new User(pseudo,nom,prenom,email,telephone,rue,ville,cpo);
 			
-		//um.insert(u,pw);
+		try {
+			um.creerUnCompte(u, pw, false);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Il faut que l'utilisateur se connecte et retourne a l'accueil
 		HttpSession session = request.getSession();
 		boolean isLoggedIn = true;
@@ -116,19 +129,19 @@ public class Register extends HttpServlet {
 		session.setAttribute("id", pseudo);
 		RequestDispatcher rd = request.getRequestDispatcher("/accueil.html");
 		rd.forward(request, response);
-		
+		}
 	}
 
 	private boolean verificationCPO(String cpo) {
 		// TODO Auto-generated method stub
 		//Possible? verification de la ville
 		//cpo doit etre entre 00999 et 99999
-		return false;
+		return true;
 	}
 
 	private boolean verificationTelephone(String telephone) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	private boolean verificationEMail(String email) {
@@ -137,12 +150,12 @@ public class Register extends HttpServlet {
 		//verifier que l'email est valide selon un regex
 		//Verifier que l'email n;est pas jetable
 		//Verifier que l'email existe vraiment
-		return false;
+		return true;
 	}
 
 	private boolean verificationPW(String pw) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

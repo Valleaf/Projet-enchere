@@ -12,8 +12,9 @@
 
 <h1>Mon profil</h1>
 
+
 <form action="${pageContext.request.contextPath}/Register" method="post">
-<input type="text" name="pseudo">
+<input type="text" name="pseudo">	
 <input type="text" name="nom">
 <input type="text" name="prenom">
 
@@ -21,7 +22,7 @@
 <input type="password" name="confirmation">
 <input type="text" name="telephone">
 <input type="text" name="cpo">
-<input type="text" name="email">
+<input type="email" name="email">
 <input type="text" name="rue">
 <input type="text" name="ville">
 <input type="submit" value="Creer">
