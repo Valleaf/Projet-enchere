@@ -59,7 +59,8 @@ public class Login extends HttpServlet {
 		//if (pw == password) {
 			//Creer une session ou cookie
 			boolean isLoggedIn = true;
-			session.setAttribute("status", isLoggedIn);		
+			session.setAttribute("status", isLoggedIn);
+			session.setAttribute("id", pseudo);
 		
 	//	} else {
 			//Envoyer message erreur et tu renvoie sur la meme page
