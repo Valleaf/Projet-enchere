@@ -59,7 +59,7 @@ public class Register extends HttpServlet {
 		//Validation de chaque parametre !
 		//On doit trim et faire une verification qu'il n'y ait pas d'injection SQL
 		//Pseudo doit etre unique et moins de 30 characteres
-		if(Verification.string(pseudo)) {
+		if(!Verification.string(pseudo)) {
 			listeMsgError.add("Pseudo vide ou trop long");
 		}
 		pseudo = Verification.verifString(pseudo);
@@ -119,7 +119,7 @@ public class Register extends HttpServlet {
 		}
 		//Il faut que l'utilisateur se connecte et retourne a l'accueil
 		HttpSession session = request.getSession();
-		boolean isLoggedIn = true;
+		String isLoggedIn = "Connecté";
 		session.setAttribute("status", isLoggedIn);		
 		//TODO recuperer l'id au lieu du pseudo
 		session.setAttribute("id", pseudo);

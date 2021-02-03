@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bll.UserManager;
+import bll.Verification;
+import exceptions.BusinessException;
+
 /**
  * Servlet implementation class Login
  */
@@ -29,9 +33,16 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String isLoggedIn2 = (String) session.getAttribute("status");
+		if(isLoggedIn2 != null && isLoggedIn2.equals("Connecté")) {
+			RequestDispatcher rd = request.getRequestDispatcher("/Accueil");
+			rd.forward(request, response);
+			return;
+		} else {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
 		rd.forward(request, response);
-	}
+	}}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,38 +50,54 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		boolean isLoggedIn2 = (boolean) session.getAttribute("status");
-		//TODO A verifier si le status null peut faire un bug
-		if(isLoggedIn2) {
-			RequestDispatcher rd = request.getRequestDispatcher("/accueil.html");
-			rd.forward(request, response);
+		
+	
+			String pseudo = request.getParameter("pseudo");
+			String password = request.getParameter("password");
+
+			//On verifie que les champs soient remplis
+			if(pseudo.isBlank()|| password.isBlank()) {
+				request.setAttribute("messageerreur",CodesResultatServlets.LOGIN_VIDE_ERREUR);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
+				rd.forward(request, response);
+				return;
+			}
+
+			UserManager um = new UserManager();
+			//On verifie que l'utilisateur avec ce pseudo existe
+			
+				try {
+					if(um.selectionnerUnUtilisateur(pseudo).getPseudo() == null) {
+						System.out.println("test");
+						request.setAttribute("messageerreur",CodesResultatServlets.LOGIN_PSEUDO_ERREUR);
+						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
+						rd.forward(request, response);
+						return;
+					}
+				} catch (BusinessException e2) {
+					e2.printStackTrace();
+				}
+			
+			//On verifie que le password entre est le bon
+			try {
+				if (password.equals(Verification.decrypt(um.recupererMDP(pseudo)))) {
+					String isLoggedIn = "Connecté";
+					session.setAttribute("status", isLoggedIn);
+					session.setAttribute("user", um.selectionnerUnUtilisateur(pseudo));
+					RequestDispatcher rd = request.getRequestDispatcher("/Accueil");
+					rd.forward(request, response);
+					return;
+				} else {
+					request.setAttribute("messageerreur",CodesResultatServlets.LOGIN_PW_ERREUR);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
+					rd.forward(request, response);
+				return;
+				}
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
 		}
-		
-		String pseudo = request.getParameter("pseudo");
-		String password = request.getParameter("password");
-		
-		if(pseudo != null && password != null) {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
-			rd.forward(request, response);
-		}
-		//Recuperer le mot de passe a partir de la BDD
-		//User utilsateur = UserManager.selectbyPseudo(pseudo);
-		//String pw = utilisateur.getPassword;
-		//if (pw == password) {
-			//Creer une session ou cookie
-			boolean isLoggedIn = true;
-			session.setAttribute("status", isLoggedIn);
-			session.setAttribute("id", pseudo);
-		
-	//	} else {
-			//Envoyer message erreur et tu renvoie sur la meme page
-		//request.setAttribute("messagerrreur",error);
-		//	RequestDispatcher rd = request.getRequestDispatcher("/login.html");
-	//		rd.forward(request, response);
-		//}
-		// TODO Auto-generated method stub
-		RequestDispatcher rd = request.getRequestDispatcher("/accueil.html");
-		rd.forward(request, response);
 	}
 
-}

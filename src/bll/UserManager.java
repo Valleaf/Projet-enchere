@@ -44,5 +44,9 @@ public class UserManager {
 	public void mettreAJourUnUtilisateur(User u,String pw) throws BusinessException{
 		this.userDAO.update(u,pw);
 	}
+	
+	public String recupererMDP(String s) throws BusinessException{
+		return this.userDAO.getPW(s);
+	}
 
 }

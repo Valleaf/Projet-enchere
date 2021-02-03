@@ -25,6 +25,9 @@ public interface UserDAO {
 	//Mettre a jour un utilisateur
 	public void update(User u,String pw) throws BusinessException;
 
+	//Recupere le mot de passe d'un utilsateur
+	public String getPW(String s) throws BusinessException;
+
 
 	
 

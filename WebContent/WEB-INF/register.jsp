@@ -13,7 +13,7 @@
 
 <h1>Mon profil</h1>
 
-
+${listeErreurs }
 <form action="${pageContext.request.contextPath}/Register" method="post">
 <p> Pseudo : <input type="text" name="pseudo"></p>
 <p> Nom : <input type="text" name="nom"></p>
@@ -25,7 +25,7 @@
 <p> Ville : <input type="text" name="ville"></p>
 <p> Mot De Passe : <input type="password" name="password"></p>
 <p> Confirmation Mot de Passe : <input type="password" name="confirmation"></p>
-<a href="${pageContext.request.contextPath}/Achatl"><button>Créer</button> </a>
+<a href="${pageContext.request.contextPath}/Achat"><button>Créer</button> </a>
 <a href="${pageContext.request.contextPath}/Accueil"><button>Annuler</button> </a>
 
 

@@ -17,6 +17,10 @@
 
 <body>
 
+<c:out value="${sessionScope.status}"/>
+ <a href="${pageContext.request.contextPath}/Deconnexion">Deconnexion
+  </a>
+
 <form action ="${pageContext.request.contextPath}" method = "get">
 <input type="text" name="nomArticleFiltre" placeholder="articles contenant...">
 <select  name="categorieArticleFiltre">

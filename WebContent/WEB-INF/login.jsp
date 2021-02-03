@@ -14,6 +14,9 @@
 		<jsp:param value="${session.isLoggedIn}" name="isLoggedIn"/>
 </jsp:include>
 
+${messageerreur }
+<c:out value="${sessionScope.status}"/>
+
 
 <form action="${pageContext.request.contextPath}/Login" method="post"> 
 <input type="text" name="pseudo">

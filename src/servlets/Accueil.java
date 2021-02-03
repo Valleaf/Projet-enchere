@@ -18,17 +18,10 @@ import bo.Article;
 /**
  * Servlet implementation class Accueil
  */
-@WebServlet("/Accueil")
+@WebServlet(name="/Accueil",urlPatterns={"/index.html","/"})
 public class Accueil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Accueil() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

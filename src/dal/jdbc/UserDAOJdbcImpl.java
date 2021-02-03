@@ -23,6 +23,7 @@ public class UserDAOJdbcImpl implements UserDAO{
 	private static final String SELECTALL = "SELECT no_utilisateur ,pseudo ,nom ,prenom ,email ,telephone ,rue ,code_postal ,ville ,mot_de_passe ,credit ,administrateur FROM UTILISATEURS";
 	private static final String SELECTBYPSEUDO = SELECTALL + " WHERE pseudo LIKE ?";
 	private static final String SELECTBYID = SELECTALL + " WHERE no_utilisateur = ?";
+	private static final String SELECTBYPSEUDOPW = "SELECT mot_de_passe FROM UTILISATEURS WHERE pseudo LIKE ?";
 	private static final String DELETEBYID = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
 	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?,	 ville = ?, mot_de_passe = ? WHERE no_utilisateur=?";
 	
@@ -223,6 +224,32 @@ public class UserDAOJdbcImpl implements UserDAO{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+	}
+
+
+
+	@Override
+	public String getPW(String s) throws BusinessException {
+		String pw = null;
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement ps = cnx.prepareStatement(SELECTBYPSEUDOPW);
+			ps.setString(1, s);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				pw = rs.getString(1);
+			}
+			rs.close();
+			ps.close();
+			cnx.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_USER_ECHEC);
+			throw businessException;
+		}
+			return pw;
 		
 	}
 	
