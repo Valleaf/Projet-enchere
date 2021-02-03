@@ -7,18 +7,18 @@ import bo.Article;
 
 public interface ArticleDAO {
 
-	public Article selectById(int id);
+	public Article selectById(int id) throws SQLException;
 	
 	//Sélectionner tous les articles 
 	public List<Article> selectAll() throws SQLException ;
 	
 	//Modifier les attributs d'un article connu en BD
-	public void update(Article data);
+	public void update(Article data) throws SQLException;
 	
 	//Insérer un nouvel article
-	public Article insert(Article data);
+	public void insert(Article data) throws SQLException;
 	
 	//Supprimer un article
-	public void delete(int id);
+	public void delete(int id) throws SQLException;
 
 }

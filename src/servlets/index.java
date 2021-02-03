@@ -33,11 +33,10 @@ public class index extends HttpServlet {
 		try {
 			article = articleManager.selectionnerTousLesArticles();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for (Article article2 : article) {
-			System.out.println(article2.getDescription());
+			response.getWriter().append(article2.getDescription()).append("\r");
 		}
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}

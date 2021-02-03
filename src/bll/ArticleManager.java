@@ -18,5 +18,30 @@ public class ArticleManager {
 	public List<Article> selectionnerTousLesArticles() throws SQLException{
 		
 		return this.articleDAO.selectAll();
+		
+	}
+	
+	public Article selectionnerUnArticle(int id) throws SQLException{
+		
+		return this.articleDAO.selectById(id);
+		
+	}
+	
+	public void ajouterUnArticles(Article data) throws SQLException{
+		
+		this.articleDAO.insert(data);
+		
+	}
+	
+	public void modifierUnArticles(Article data) throws SQLException{
+		
+		this.articleDAO.update(data);
+		
+	}
+	
+	public void supprimerUnArticle(int id) throws SQLException{
+		
+		this.articleDAO.delete(id);
+		
 	}
 }
