@@ -16,22 +16,20 @@ import javax.servlet.http.HttpSession;
 import bll.UserManager;
 import bll.Verification;
 import bo.User;
-import dal.DAOFactory;
-import dal.UserDAO;
+import exceptions.BusinessException;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class TestModifierUser
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/Modifier")
+public class TestModifierUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/register.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modifierUser.jsp");
 		rd.forward(request, response);
 	}
 
@@ -39,7 +37,7 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String pw = request.getParameter("password");
@@ -51,15 +49,14 @@ public class Register extends HttpServlet {
 		String cpo = request.getParameter("cpo");
 		String ville = request.getParameter("ville");
 		UserManager um = new UserManager();
-
 		
-		List<String> listeMsgError = new ArrayList<>();
+List<String> listeMsgError = new ArrayList<>();
 
 		
 		//Validation de chaque parametre !
 		//On doit trim et faire une verification qu'il n'y ait pas d'injection SQL
 		//Pseudo doit etre unique et moins de 30 characteres
-		if(Verification.string(pseudo)) {
+		if(!Verification.string(pseudo)) {
 			listeMsgError.add("Pseudo vide ou trop long");
 		}
 		pseudo = Verification.verifString(pseudo);
@@ -103,18 +100,20 @@ public class Register extends HttpServlet {
 		if(!verificationCPO(cpo)) {
 			listeMsgError.add("cpoinvalide");
 		}
-		
+		System.out.println("oui");
 		if(listeMsgError.size()>0) {
 			request.setAttribute("listeErreurs", listeMsgError);
-	
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/register.jsp");
+			System.out.println("echec");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modifierUser.jsp");
 			rd.forward(request, response);
 		} else {
 		User u = new User(pseudo,nom,prenom,email,telephone,rue,ville,cpo);
+		u.setNumero(4);
 		
 		try {
-			um.creerUnCompte(u, pw, false);
-		} catch (SQLException e) {
+			um.mettreAJourUnUtilisateur(u, pw);
+			System.out.println("ok");
+		} catch ( BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -154,5 +153,7 @@ public class Register extends HttpServlet {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
+		
 }
+
+
