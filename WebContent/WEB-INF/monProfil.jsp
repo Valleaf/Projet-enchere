@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Profil</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mon Profil</title>
     <link rel="stylesheet" href="css/styles.css">
 
 <jsp:include page="header.jsp">
@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<h1>Profil</h1>
+<h1>Mon  Profil</h1>
 
 <p> Pseudo : ${pseudo}</p><br>
 <p> Nom : ${nom} </p><br> 
@@ -25,7 +25,7 @@
 <p>Code Postal : ${cpo} </p><br>
 <p>Ville : ${ville} </p><br> 
 
-
+<a href="${pageContext.request.contextPath}/ModifierProfil"><button>Modifier</button></a>
 
 </body>
 
