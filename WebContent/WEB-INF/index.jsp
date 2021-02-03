@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
     <title>ENI-Encheres : Liste des enchères</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
 </head>
 <jsp:include page="header.jsp">
@@ -34,13 +34,24 @@
 </form>
 
 
-<%--on fait un foreach sur chaque element de listeArticles qu'on affiche dans une boite
-c:forEach items="${listeArticles}">
-<div>listeArticles.identifiant
-etc
+<%--on fait un foreach sur chaque element de listeArticles qu'on affiche dans une boite--%>
+
+<div class="listeArticles">
+	<c:forEach items="${listeArticles}" var="article" varStatus="status" >
+		<div class="article">
+			<div class="articleData">
+				<div>nom: <c:out value="${ article.nomArticle }" /></div>
+				<div>desc: <c:out value="${ article.description }" /></div>
+				<div>date debut: <c:out value="${ article.dateDebut }" /></div>
+				<div>date fin: <c:out value="${ article.dateFin }" /></div>
+				<div>prix: <c:out value="${ article.prixInitial }" /></div>
+			</div>
+			<div class="articleImgBox">
+					image
+			</div>
+		</div>
+	</c:forEach>
 </div>
-</c:foreach>
---%>
 
 
 </body>

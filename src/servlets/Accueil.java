@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,10 +33,14 @@ public class Accueil extends HttpServlet {
 		String categorieFiltre = request.getParameter("categorieArticleFiltre");
 		List<Article> listeA = new ArrayList<>(); 
 		
-		//ArticleManager am = ArticleManager.getArticleDAO();
-		//listeA = am.getArticles();
+		ArticleManager am = new ArticleManager();
+		try {
+			listeA = am.selectionnerTousLesArticles();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		
+				
 		if (nomFiltre !=null) {
 			/*
 			 * On fait un foreach sur chaque element e de listeA
