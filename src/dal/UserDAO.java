@@ -13,11 +13,19 @@ public interface UserDAO {
 	//Recuperer tous les utilisateurs
 	public List<User> select() throws BusinessException;
 	
-	//Selectionner un utilisateur selon son numero d'identifiant
-	public User selectById(int id) throws BusinessException;
+	//Selectionner un utilisateur selon son pseudo
+	public User selectById(String pseudo) throws BusinessException;
 	
 	//Supprimer un utilisateur
-	public void delete() throws BusinessException;
+	void delete(int id) throws BusinessException;
+
+	//Selectionner un utilisateur selon son numero d'identifiant
+	public User selectById(int id) throws BusinessException;
+
+	//Mettre a jour un utilisateur
+	public void update(User u,String pw) throws BusinessException;
+
+
 	
 
 }

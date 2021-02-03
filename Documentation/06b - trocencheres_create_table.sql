@@ -40,7 +40,7 @@ CREATE TABLE UTILISATEURS (
     email            VARCHAR(60) NOT NULL,
     telephone        VARCHAR(15) NULL,
     rue              VARCHAR(60) NOT NULL,
-    code_postal      VARCHAR(10) NOT NULL,
+    code_postal      VARCHAR(5) NOT NULL,
     ville            VARCHAR(30) NOT NULL,
     mot_de_passe     VARCHAR(30) NOT NULL,
     credit           INTEGER NOT NULL,

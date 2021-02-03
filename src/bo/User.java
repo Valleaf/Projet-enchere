@@ -90,6 +90,12 @@ public class User {
 		this.credit=0;
 		this.admin=false;
 	}
+	@Override
+	public String toString() {
+		return "User [numero=" + numero + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom=" + prenom + ", email="
+				+ email + ", telephone=" + telephone + ", rue=" + rue + ", cpo=" + cpo + ", ville=" + ville
+				+ ", credit=" + credit + ", admin=" + admin + "]";
+	}
 	public User(String pseudo2, String nom2, String prenom2, String email2, String telephone2, String rue2,
 			String ville2, String cpo2) {
 		this();
