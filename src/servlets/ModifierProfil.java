@@ -14,24 +14,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bll.UserManager;
-import bll.Verification;
 import bo.User;
-import dal.DAOFactory;
-import dal.UserDAO;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class ModifierProfil
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/ModifierProfil")
+public class ModifierProfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ModifierProfil() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/register.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ModifierProfil.jsp");
 		rd.forward(request, response);
 	}
 
@@ -42,29 +46,29 @@ public class Register extends HttpServlet {
 		
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
-		String pw = request.getParameter("password");
 		String prenom = request.getParameter("prenom");
-		String pw2 = request.getParameter("confirmation");
 		String email = request.getParameter("email");
 		String rue = request.getParameter("rue");
 		String telephone = request.getParameter("telephone");
 		String cpo = request.getParameter("cpo");
 		String ville = request.getParameter("ville");
 		UserManager um = new UserManager();
+		String pw = request.getParameter("pw");
 
+		String password = request.getParameter("password");
+		// Il faut faire laverification QUE l'ancien mot de passe et différent du nouveau
+		// il faut aussi faire la modification avec le nouveau mot de passe 
 		
 		List<String> listeMsgError = new ArrayList<>();
 
 		
 		//Validation de chaque parametre !
-		//On doit trim et faire une verification qu'il n'y ait pas d'injection SQL
 		//Pseudo doit etre unique et moins de 30 characteres
-		if(Verification.string(pseudo)) {
+		if(pseudo == null || pseudo.length() > 30) {
 			listeMsgError.add("Pseudo vide ou trop long");
 		}
-		pseudo = Verification.verifString(pseudo);
 		
-		//TODO User u = um.selectByPseudo(pseudo);
+		//User u = um.selectByPseudo(pseudo);
 		//if (u != null){
 		//listeMsgError.add("pseudodejaexistant");
 		//}
@@ -79,15 +83,16 @@ public class Register extends HttpServlet {
 		//Le mot de passe doit etre egal a la confrimation et moins de 30caracteres
 		//minimum 8 avec caractere special, avec majuscule, minuscule
 		//Optionnellement on peut recommander un mdp a l'utilisateur
-		if (!pw.equals(pw2)) {
-			listeMsgError.add("Le mdp et la confrimation ne sontpas egaux");
-		}
-		if (!verificationPW(pw)) {
+	
+	//	if (!pw.equals(pw2)) {
+	//		listeMsgError.add("Le mdp et la confrimation ne sontpas egaux");
+	//	}
+	//	if (!verificationPW(pw)) {
 			listeMsgError.add("Le nom de passe n'est pas conforme");
-		}
-		if(!verificationEMail(email)) {
-			listeMsgError.add("L'email n'est pas conforme");
-		}
+	//	}
+	//	if(!verificationEMail(email)) {
+	//		listeMsgError.add("L'email n'est pas conforme");
+	//	}
 		
 		if(!verificationTelephone(telephone)) {
 			listeMsgError.add("Le telephone n'est pas conforme");
@@ -107,21 +112,21 @@ public class Register extends HttpServlet {
 		if(listeMsgError.size()>0) {
 			request.setAttribute("listeErreurs", listeMsgError);
 	
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/register.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ModifierProfil.jsp");
 			rd.forward(request, response);
 		} else {
 		User u = new User(pseudo,nom,prenom,email,telephone,rue,ville,cpo);
-		
+			
 		try {
 			um.creerUnCompte(u, pw, false);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Il faut que l'utilisateur se connecte et retourne a l'accueil
 		HttpSession session = request.getSession();
 		boolean isLoggedIn = true;
 		session.setAttribute("status", isLoggedIn);		
-		//TODO recuperer l'id au lieu du pseudo
 		session.setAttribute("id", pseudo);
 		RequestDispatcher rd = request.getRequestDispatcher("/Achat.html");
 		rd.forward(request, response);
@@ -129,16 +134,19 @@ public class Register extends HttpServlet {
 	}
 
 	private boolean verificationCPO(String cpo) {
+		// TODO Auto-generated method stub
 		//Possible? verification de la ville
 		//cpo doit etre entre 00999 et 99999
 		return true;
 	}
 
 	private boolean verificationTelephone(String telephone) {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	private boolean verificationEMail(String email) {
+		// TODO Auto-generated method stub
 		//Fonctions a voir :
 		//verifier que l'email est valide selon un regex
 		//Verifier que l'email n;est pas jetable
@@ -147,7 +155,12 @@ public class Register extends HttpServlet {
 	}
 
 	private boolean verificationPW(String pw) {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
-}
+
+
+	}
+
+
