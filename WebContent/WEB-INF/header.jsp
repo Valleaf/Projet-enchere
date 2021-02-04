@@ -11,29 +11,32 @@
 </head>
 <body>
 
-<c:choose>
 <%--Affichage de la barre en mode connectee 
 sinon affichage de la barre non connectee--%>
-<c:when test="${isLoggedIn}">
 
-ENI ENCHERES <%--a gauche --%>
+ 
+  <div class="nav-bar">
 
-encheres
-vendre un article
-profil
-deconnexion
-</c:when>
-  <c:otherwise>
-  ENI ENCHERES <%--a gauche --%>
-  
-  <a href="${pageContext.request.contextPath}/Login">Se connecter
-  s'inscrire
-  </a>
-  
-  
-  
-  </c:otherwise>
+  <a class="active" href="${pageContext.request.contextPath}/">ENI Enchères</a>
+  <div class="right">
+  <c:choose>
+<c:when test="${status == 'Connecté'}">
+    <a href="${pageContext.request.contextPath}/">Vendre un article</a>
+    <a href="${pageContext.request.contextPath}/MaPageProfil">Profil</a>
+    <a href="${pageContext.request.contextPath}/Deconnexion">Se Deconnecter</a>
+    </c:when>
+      <c:otherwise>
+    
+    <a href="${pageContext.request.contextPath}/Login">Se connecter / S'inscrire</a>
+      </c:otherwise>
   </c:choose>
+  </div>
+
+</div>
+  
+  
+  
+
 
 
 </body>

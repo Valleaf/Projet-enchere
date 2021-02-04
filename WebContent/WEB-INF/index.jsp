@@ -8,18 +8,17 @@
 <meta charset="UTF-8">
     <title>ENI-Encheres : Liste des enchères</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    
 
 </head>
 <jsp:include page="header.jsp">
-		<jsp:param value="${session.status}" name="isLoggedIn"/>
+		<jsp:param value="${sessionScope.status}" name="status"/>
 </jsp:include>
 
 
 <body>
 
-<c:out value="${sessionScope.status}"/>
- <a href="${pageContext.request.contextPath}/Deconnexion">Deconnexion
-  </a>
 
 <form action ="${pageContext.request.contextPath}" method = "get">
 <input type="text" name="nomArticleFiltre" placeholder="articles contenant...">

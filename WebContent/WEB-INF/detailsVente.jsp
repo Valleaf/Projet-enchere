@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <title>Details de la Vente</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+
 
 </head>
 <jsp:include page="header.jsp">
@@ -17,8 +19,6 @@
 
 <body>
 
-<c:out value="${sessionScope.status}"/>
- <a href="${pageContext.request.contextPath}/Deconnexion">Deconnexion
   </a>
 <div class="listeArticles">
 		<div class="article">

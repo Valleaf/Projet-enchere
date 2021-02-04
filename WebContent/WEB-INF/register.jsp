@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>Creer un compte</title>
     <link rel="stylesheet" href="css/styles.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    
 
 </head>
 <body>

@@ -27,11 +27,11 @@ public class Deconnexion extends HttpServlet {
 		if(isLoggedIn2 != null && isLoggedIn2.equals("Connecté")) {
 			String s = "Deconnecté";
 			session.setAttribute("status", s);
-			RequestDispatcher rd = request.getRequestDispatcher("/Accueil");
+			RequestDispatcher rd = request.getRequestDispatcher("/");
 			rd.forward(request, response);
 			return;
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/Accueil");
+		RequestDispatcher rd = request.getRequestDispatcher("/");
 		rd.forward(request, response);
 	}
 

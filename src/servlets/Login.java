@@ -36,7 +36,7 @@ public class Login extends HttpServlet {
 		HttpSession session = request.getSession();
 		String isLoggedIn2 = (String) session.getAttribute("status");
 		if(isLoggedIn2 != null && isLoggedIn2.equals("Connecté")) {
-			RequestDispatcher rd = request.getRequestDispatcher("/Accueil");
+			RequestDispatcher rd = request.getRequestDispatcher("/");
 			rd.forward(request, response);
 			return;
 		} else {
@@ -84,7 +84,7 @@ public class Login extends HttpServlet {
 					String isLoggedIn = "Connecté";
 					session.setAttribute("status", isLoggedIn);
 					session.setAttribute("user", um.selectionnerUnUtilisateur(pseudo));
-					RequestDispatcher rd = request.getRequestDispatcher("/Accueil");
+					RequestDispatcher rd = request.getRequestDispatcher("/");
 					rd.forward(request, response);
 					return;
 				} else {
