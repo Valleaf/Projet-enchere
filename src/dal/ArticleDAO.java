@@ -7,8 +7,15 @@ import bo.Article;
 
 public interface ArticleDAO {
 
+	//Séléctionner un article par son ID
 	public Article selectById(int id) throws SQLException;
 	
+	//Séléctionner un article par son ID
+	public Article selectByUser(int id) throws SQLException;
+	
+	//Séléctionner un article par son ID
+	public Article selectByCategory(int id) throws SQLException;
+		
 	//Sélectionner tous les articles 
 	public List<Article> selectAll() throws SQLException ;
 	
