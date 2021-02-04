@@ -38,7 +38,7 @@
 
 <div class="listeArticles">
 	<c:forEach items="${listeArticles}" var="article" varStatus="status" >
-		<div class="article">
+		<div class="article" onclick='openDetails(${ article.noArticle })'>
 			<div class="articleData">
 				<div>nom: <c:out value="${ article.nomArticle }" /></div>
 				<div>desc: <c:out value="${ article.description }" /></div>
@@ -55,7 +55,14 @@
 
 
 </body>
+<script>
 
+	function openDetails(id){
+		window.location = '${pageContext.request.contextPath}/DetailsVente?id='+id;
+	}
+	
+	
+</script>
 <%@ include file="footer.html"%>
 
 </html>

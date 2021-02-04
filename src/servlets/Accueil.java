@@ -19,7 +19,7 @@ import bo.Article;
 /**
  * Servlet implementation class Accueil
  */
-@WebServlet(name="/Accueil",urlPatterns={"/index.html","/"})
+@WebServlet(name="/Accueil",urlPatterns={"/index.html"})
 public class Accueil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

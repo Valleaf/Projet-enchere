@@ -14,7 +14,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	private static final String SQLUPDATE = "update ARTICLES_VENDUS set nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? where no_article=?";
 	private static final String SQLDELETE = "delete from ARTICLES_VENDUS where no_article=?";
 	private static final String SQLSELECTALL = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS";
-	private static final String SQLSELECTBYID = "select nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_article=?";
+	private static final String SQLSELECTBYID = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_article=?";
 	
 	@Override
 	public void insert(Article data) throws SQLException {
