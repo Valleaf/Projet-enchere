@@ -64,18 +64,22 @@ public class Register extends HttpServlet {
 		}
 		pseudo = Verification.verifString(pseudo);
 		
-		//TODO User u = um.selectByPseudo(pseudo);
-		//if (u != null){
-		//listeMsgError.add("pseudodejaexistant");
-		//}
+		if(Verification.isAlreadyTakenPseudo(pseudo)) {
+			listeMsgError.add("Ce pseudo existe deja");
+		}
 		
-		if(nom== null || nom.length() > 30) {
+		
+		if(!Verification.string(nom)) {
 			listeMsgError.add("Nom vide ou trop long");
+
 		}
 		
-		if(prenom== null || prenom.length()>30) {
-			listeMsgError.add("prenom vide ou trop long");
+		if(!Verification.string(prenom)) {
+			listeMsgError.add("Nom vide ou trop long");
+
 		}
+		
+	
 		//Le mot de passe doit etre egal a la confrimation et moins de 30caracteres
 		//minimum 8 avec caractere special, avec majuscule, minuscule
 		//Optionnellement on peut recommander un mdp a l'utilisateur

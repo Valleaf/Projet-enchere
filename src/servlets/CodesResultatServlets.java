@@ -14,7 +14,8 @@ public abstract class CodesResultatServlets {
 	 */
 	public static final int LOGIN_PW_ERREUR=30001;
 	public static final int LOGIN_VIDE_ERREUR = 30002;
-
-	
-	
+	/**
+	 * Format pseudo deja existant
+	 */
+	public static final int PSEUDO_EXISTANT=30003;	
 }

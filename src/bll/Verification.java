@@ -4,6 +4,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import javax.management.Query;
+import javax.servlet.RequestDispatcher;
+
+import dal.DAOFactory;
+import exceptions.BusinessException;
+import servlets.CodesResultatServlets;
 
 /**
  * Cette classe sert a verifier les donnees envoyees a la BDD
@@ -21,14 +26,11 @@ public class Verification {
 		if(s == null || s.length()>30) {
 			return false;
 		} 
-		/*TODO On ne veut pas de caracteres speciaux, a tester
-		if(s.matches("[^a-zA-Z\\d\\s:]") ){
+		if(s.matches("(.*)[^a-zA-Z\\d\\s:](.*)") ){
 			return false;
 		}
-		*/
 		return true;
 	}
-	
 	public static String verifString(String s) {
 		return s.trim();
 	}
@@ -56,6 +58,24 @@ public class Verification {
 		final byte[] decodedBytes = Base64.getDecoder().decode(pw);
 		final String decoded = new String(decodedBytes,StandardCharsets.UTF_8);
 		return decoded;
+	}
+	
+	/**
+	 * Cette fonction regarde dans la base de donnes si compte avec ce pseudo donnee en parametre existe deja
+	 * @param pseudo Le compte a verifier
+	 * @return Vrai si le compte existe deja, faux sinon
+	 */
+	public static boolean isAlreadyTakenPseudo(String pseudo) {
+		
+		UserManager um = new UserManager();
+		try {
+			if(um.selectionnerUnUtilisateur(pseudo).getPseudo() == null) {
+				return true;
+			}
+		} catch (BusinessException e2) {
+			e2.printStackTrace();
+		}
+		return false;
 	}
 	
 	
