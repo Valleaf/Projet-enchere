@@ -15,6 +15,8 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	private static final String SQLDELETE = "delete from ARTICLES_VENDUS where no_article=?";
 	private static final String SQLSELECTALL = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS";
 	private static final String SQLSELECTBYID = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_article=?";
+	private static final String SQLSELECTBYUSER = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_utilisateur=?";
+	private static final String SQLSELECTBYCATEGORIE = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_categorie=?";
 	
 	@Override
 	public void insert(Article data) throws SQLException {
@@ -79,7 +81,6 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		
 	}
 
-
 	@Override
 	public void delete(int id) throws SQLException {
 		try(Connection cnx = ConnectionProvider.getConnection())
@@ -108,6 +109,82 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		try(Connection cnx = ConnectionProvider.getConnection()){
 			try {
 				PreparedStatement pstmt = cnx.prepareStatement(SQLSELECTBYID);
+				pstmt.setInt(1, id);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					art = new Article(
+						rs.getInt("no_article"),
+						rs.getString("nom_article"),
+						rs.getString("description"),
+						rs.getTimestamp("date_debut_enchere"),
+						rs.getTimestamp("date_fin_enchere"),
+						rs.getInt("prix_initial"),
+						rs.getInt("prix_vente"),
+						rs.getInt("no_utilisateur"),
+						rs.getInt("no_categorie"),
+						rs.getString("etat_vente"),
+						rs.getString("image")
+					);
+				}
+				rs.close();
+				pstmt.close();
+				cnx.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				throw new SQLException("selectById failed - " , e);
+			}
+			
+		}
+		
+		return art;
+	}
+
+	@Override
+	public Article selectByUser(int id) throws SQLException {
+		Article art = null;
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(SQLSELECTBYUSER);
+				pstmt.setInt(1, id);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					art = new Article(
+						rs.getInt("no_article"),
+						rs.getString("nom_article"),
+						rs.getString("description"),
+						rs.getTimestamp("date_debut_enchere"),
+						rs.getTimestamp("date_fin_enchere"),
+						rs.getInt("prix_initial"),
+						rs.getInt("prix_vente"),
+						rs.getInt("no_utilisateur"),
+						rs.getInt("no_categorie"),
+						rs.getString("etat_vente"),
+						rs.getString("image")
+					);
+				}
+				rs.close();
+				pstmt.close();
+				cnx.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				throw new SQLException("selectById failed - " , e);
+			}
+			
+		}
+		
+		return art;
+	}
+
+	@Override
+	public Article selectByCategory(int id) throws SQLException {
+		Article art = null;
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			try {
+				PreparedStatement pstmt = cnx.prepareStatement(SQLSELECTBYCATEGORIE);
 				pstmt.setInt(1, id);
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {
