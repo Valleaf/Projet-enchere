@@ -29,15 +29,24 @@ public class RegisterArticle extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/registerArticle.jsp");
-		rd.forward(request, response);
+		HttpSession session = request.getSession();
+		String isLoggedIn2 = (String) session.getAttribute("status");
+		System.out.println(session.getAttribute("numero"));
+		if(!(isLoggedIn2 != null && isLoggedIn2.equals("Connecté"))) {
+			RequestDispatcher rd = request.getRequestDispatcher("/Login");
+			rd.forward(request, response);
+			return;
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/registerArticle.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpSession session = request.getSession();
 		String nomArticle = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
 		String heureDebutString = request.getParameter("heureDebut");

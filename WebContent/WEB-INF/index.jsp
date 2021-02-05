@@ -23,11 +23,11 @@
 <form action ="${pageContext.request.contextPath}" method = "get">
 <input type="text" name="nomArticleFiltre" placeholder="articles contenant...">
 <select  name="categorieArticleFiltre">
-    <option selected>Toutes</option>
-    <option name="categorieArticleFiltre" value="">Informatique</option>
-    <option name="categorieArticleFiltre" value="">Ameublement</option>
-    <option name="categorieArticleFiltre" value="">Vêtement</option>
-    <option name="categorieArticleFiltre" value="">Sport & Loisirs</option>
+    <option selected value="0">Toutes</option>
+    <option name="categorieArticleFiltre" value="1">Informatique</option>
+    <option name="categorieArticleFiltre" value="2">Ameublement</option>
+    <option name="categorieArticleFiltre" value="3">Vêtement</option>
+    <option name="categorieArticleFiltre" value="4">Sport & Loisirs</option>
 </select>
 <input type="submit">
 </form>

@@ -29,34 +29,61 @@ public class Accueil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String nomFiltre = request.getParameter("nomArticleFiltre");
-		String categorieFiltre = request.getParameter("categorieArticleFiltre");
+		int categorieFiltre = 0;
+		String nomFiltre = null;
+
+		// on test si un parametre de recherche existe et on le recupère si c'est le cas
+		if(request.getParameterMap().containsKey("categorieArticleFiltre")) {
+			categorieFiltre = Integer.parseInt(request.getParameter("categorieArticleFiltre"));
+		}
+		if(request.getParameterMap().containsKey("nomArticleFiltre")){
+			nomFiltre = request.getParameter("nomArticleFiltre");
+		}
+		
 		List<Article> listeA = new ArrayList<>(); 
 		
 		ArticleManager am = new ArticleManager();
-		try {
-			listeA = am.selectionnerTousLesArticles();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-				
-		if (nomFiltre !=null) {
-			/*
-			 * On fait un foreach sur chaque element e de listeA
-			 * On verifie que e.getNom contient nomFiltre
-			 * Si le nom ne le contient pas, on supprime l'article
-			 * */
-		}
-		
-		if (categorieFiltre != null) {
-			/*
-			 * on fait un foreach sur chaque element e de listeA
-			 * Si e.getCategorie n'est pas egal a categorieFiltre, on supprime l'article
-			 */
-		}
-		
-		
+        if(categorieFiltre != 0) {
+        	if(nomFiltre != null) {
+        		try {
+        			listeA = am.selectionnerParNomEtCategorie(nomFiltre, categorieFiltre);
+        		} catch (SQLException e) {
+        			e.printStackTrace();
+        		}        	
+        		
+        	}else {
+        		try {
+        			listeA = am.selectionnerParCategorie(categorieFiltre);
+        		} catch (SQLException e) {
+        			e.printStackTrace();
+        		}        	
+        		
+        	}
+        }else if(nomFiltre != null){
+        	if(categorieFiltre != 0) {
+        		try {
+        			listeA = am.selectionnerParNomEtCategorie(nomFiltre, categorieFiltre);
+        		} catch (SQLException e) {
+        			e.printStackTrace();
+        		}        	
+        		
+        	}else {
+        		try {
+        			listeA = am.selectionnerParNom(nomFiltre);
+        		} catch (SQLException e) {
+        			e.printStackTrace();
+        		}        	
+        		
+        	}
+        	
+        }else {
+    		try {
+    			listeA = am.selectionnerTousLesArticles();
+    		} catch (SQLException e) {
+    			e.printStackTrace();
+    		}        	
+        }
+
 		request.setAttribute("listeArticles", listeA);
 				
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/index.jsp");

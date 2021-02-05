@@ -21,7 +21,7 @@ sinon affichage de la barre non connectee--%>
   <div class="right">
   <c:choose>
 <c:when test="${status == 'Connecté'}">
-    <a href="${pageContext.request.contextPath}/">Vendre un article</a>
+    <a href="${pageContext.request.contextPath}/RegisterArticle">Vendre un article</a>
     <a href="${pageContext.request.contextPath}/MaPageProfil">Profil</a>
     <a href="${pageContext.request.contextPath}/Deconnexion">Se Deconnecter</a>
     </c:when>

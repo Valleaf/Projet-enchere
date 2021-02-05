@@ -10,11 +10,17 @@ public interface ArticleDAO {
 	//Séléctionner un article par son ID
 	public Article selectById(int id) throws SQLException;
 	
-	//Séléctionner un article par son ID
-	public Article selectByUser(int id) throws SQLException;
+	//Séléctionner un article par son ID Utilisateur
+	public List<Article> selectByUser(int id) throws SQLException;
 	
-	//Séléctionner un article par son ID
-	public Article selectByCategory(int id) throws SQLException;
+	//Séléctionner un article par son ID de Categorie
+	public List<Article> selectByCategory(int id) throws SQLException;
+
+	//Séléctionner un article par son Nom
+	public List<Article> selectByName(String name) throws SQLException;
+	
+	//Séléctionner un article par son Nom et par categorie
+	public List<Article> selectByNameAndCategory(String name, int id) throws SQLException;
 		
 	//Sélectionner tous les articles 
 	public List<Article> selectAll() throws SQLException ;
