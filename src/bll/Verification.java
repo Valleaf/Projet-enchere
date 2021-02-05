@@ -11,6 +11,9 @@ import javax.management.Query;
 import javax.naming.directory.ModificationItem;
 import javax.servlet.RequestDispatcher;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 import dal.DAOFactory;
 import exceptions.BusinessException;
@@ -258,6 +261,94 @@ public class Verification {
 		return true;
 	}
 	
+	/**
+	 * Cette fonction verifie que l'on as bien séléctionner
+	 * @param id séléctionner
+	 * @return Vrai si l'id est diferente de 0
+	 */
+	public static boolean verificationCategorie(int id) {
+		
+		if(id == 0) {
+			return false;
+		}
+		return true;
+	}
 	
+	/**
+	 * Cette fonction verifie si la string est nulle, trop longue ou si elle contient des caracteres autre que des espaces, lettres de l'alphabet ou des chiffres 
+	 * TODO On pourait ajouter les apostrophes si on les double ainsi que les lettres avec accents
+	 * @param s la string a verifier
+	 * @return Vrai si les tests sont bons, false sinon
+	 */
+	public static boolean verificationDescription(String s) {
+		if(s == null || s.length()>300) {
+			return false;
+		} 
+		if(s.matches("(.*)[^a-zA-Z\\d\\s:](.*)") ){
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * Cette fonction verifie si la string est nulle, trop longue ou si elle contient des caracteres autre que des espaces, lettres de l'alphabet ou des chiffres 
+	 * TODO On pourait ajouter les apostrophes si on les double ainsi que les lettres avec accents
+	 * @param s la string a verifier
+	 * @return Vrai si les tests sont bons, false sinon
+	 */
+	public static boolean verificationPrix(int prix) {
+		if(prix < 0) {
+			return false;
+		} 
+		return true;
+	}
+	
+	/**
+	 * Cette fonction verifie si l'URL de l'image est nulle, trop longue ou si elle contient des caracteres autre que des espaces, lettres de l'alphabet ou des chiffres 
+	 * TODO On pourait ajouter les apostrophes si on les double ainsi que les lettres avec accents
+	 * @param s la string a verifier
+	 * @return Vrai si les tests sont bons, false sinon
+	 */
+	public static boolean verificationImageURL(String s) {
+		if(s == null || s.length()>150) {
+			return false;
+		}
+		try {
+			URL url = new URL(s);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public static VerificationMsgEtBoolean verificationVente(String nomArticle, String description, int categorie, int prixInitial, String image, List<String> errors) {
+		boolean vrai = true;
+		List<String> listeMsgError = new ArrayList<>();
+		
+		if(!Verification.string(nomArticle)) {
+			listeMsgError.add("Nom de l'Article vide, trop long ou caracteres non conformes");
+			vrai = false;
+		}
+		
+		if(!Verification.verificationDescription(description)) {
+			listeMsgError.add("Description vide ou trop longue");
+			vrai = false;
+		}
+		
+		if(!Verification.verificationCategorie(categorie)) {
+			listeMsgError.add("Vous devez selectionner un categorie");
+			vrai = false;
+		}
 
+		if (!Verification.verificationPrix(prixInitial)) {
+			listeMsgError.add("le prix initial doit etre superieur a 0");
+			vrai = false;
+		}
+		if(!Verification.verificationImageURL(image)) {
+			listeMsgError.add("Le lien de l'image est trop long ou incorrecte");
+			vrai = false;
+		}		
+		
+		return new VerificationMsgEtBoolean(vrai, listeMsgError);
+	}
 }
