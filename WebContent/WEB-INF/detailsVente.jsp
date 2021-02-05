@@ -28,6 +28,8 @@
 				<div>date debut: <c:out value="${ dataArticle.dateDebut }" /></div>
 				<div>date fin: <c:out value="${ dataArticle.dateFin }" /></div>
 				<div>prix: <c:out value="${ dataArticle.prixInitial }" /></div>
+				<div><a href="${pageContext.request.contextPath}/Profils?id=${ dataArticle.noUtilisateur }">Utilisateur: <c:out value="${ dataArticle.noUtilisateur }" /></a></div>
+				
 			</div>
 			<div class="articleImgBox">
 					image
