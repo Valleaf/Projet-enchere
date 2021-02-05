@@ -55,7 +55,9 @@ public class ModifierProfil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		UserManager um = new UserManager();
+		User ancienpseudo = (User) session.getAttribute("user");
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
@@ -78,12 +80,26 @@ public class ModifierProfil extends HttpServlet {
 		conforme = v.isTest();
 		pseudo = Verification.verifString(pseudo);
 		
+		pseudo = Verification.verifString(pseudo);
+		try {
+			if(Verification.isAlreadyTakenPseudo(pseudo) && um.selectionnerUnUtilisateur(pseudo).getPseudo() == ancienpseudo.getPseudo()) {
+				listeMsgError.add("Ce pseudo existe deja");
+			}
+		} catch (BusinessException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		if(Verification.isAlreadyTakenEmail(email)) {
+			listeMsgError.add("Cet adresse email est deja prise");
+		}
+		
 		if (pw2 == null || !pw.equals(pw2)) {
 			listeMsgError.add("Le mdp et la confrimation ne sontpas egaux");
 		}
 		// le mot de passe courant doit etre conforme
 		try {
-			if (um.recupererMDP(pseudo) == null || pw.equals(Verification.decrypt(um.recupererMDP(pseudo)))) {
+			if (!currentPassword.equals(Verification.decrypt(um.recupererMDP(ancienpseudo.getPseudo())))) {
 				listeMsgError.add("Le mot de passe actuel ne correspond pas");
 			}
 		} catch (BusinessException e1) {
@@ -107,8 +123,7 @@ public class ModifierProfil extends HttpServlet {
 			e.printStackTrace();
 		}
 		//Il faut que l'utilisateur se connecte et retourne a l'accueil
-		HttpSession session = request.getSession();
-		boolean isLoggedIn = true;
+		String isLoggedIn = "Connecté";
 		session.setAttribute("status", isLoggedIn);		
 		session.setAttribute("id", pseudo);
 		RequestDispatcher rd = request.getRequestDispatcher("/");

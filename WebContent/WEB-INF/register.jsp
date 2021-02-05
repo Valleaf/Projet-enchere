@@ -11,12 +11,16 @@
     
 
 </head>
-<body>
+<jsp:include page="header.jsp">
+		<jsp:param value="${session.status}" name="isLoggedIn"/>
+</jsp:include>
+<body class="container-profil">
 
-<h1>Mon profil</h1>
+<h1 class="page-title">Mon profil</h1>
 
 ${listeErreurs }
-<%--TODO: Mettre en page la page d'inscription, afficher les erreurs dans une modal et indiquer les restrictions sur les differents champs--%>
+<%--TODO: Mettre en page la page d'inscription, afficher les erreurs dans une modal et indiquer les restrictions sur les differents champs--%><div class="account-box">
+
 <form action="${pageContext.request.contextPath}/Register" method="post">
 <p> Pseudo : <input type="text" name="pseudo"></p>
 <p> Nom : <input type="text" name="nom"></p>
@@ -28,11 +32,15 @@ ${listeErreurs }
 <p> Ville : <input type="text" name="ville"></p>
 <p> Mot De Passe : <input type="password" name="password"></p>
 <p> Confirmation Mot de Passe : <input type="password" name="confirmation"></p>
-<a href="${pageContext.request.contextPath}/Achat"><button>Créer</button> </a>
-<a href="${pageContext.request.contextPath}/"><button>Annuler</button> </a>
+<p><a href="${pageContext.request.contextPath}/Achat"><button>Créer</button> </a></p>
 
 
 </form>
 
+</div>
+<a href="${pageContext.request.contextPath}/"><button>Annuler</button> </a>
+
 </body>
+<%@ include file="footer.html"%>
+
 </html>

@@ -49,4 +49,8 @@ public class UserManager {
 		return this.userDAO.getPW(s);
 	}
 
+	public User selectionnerUnUtilisateur(String email, int i) throws BusinessException {
+		return this.userDAO.selectByEmail(email);
+	}
+
 }

@@ -23,6 +23,7 @@ public class UserDAOJdbcImpl implements UserDAO{
 	private static final String SELECTALL = "SELECT no_utilisateur ,pseudo ,nom ,prenom ,email ,telephone ,rue ,code_postal ,ville ,mot_de_passe ,credit ,administrateur FROM UTILISATEURS";
 	private static final String SELECTBYPSEUDO = SELECTALL + " WHERE pseudo LIKE ?";
 	private static final String SELECTBYID = SELECTALL + " WHERE no_utilisateur = ?";
+	private static final String SELECTBYEMAIL = SELECTALL + " WHERE email LIKE ?";
 	private static final String SELECTBYPSEUDOPW = "SELECT mot_de_passe FROM UTILISATEURS WHERE pseudo LIKE ?";
 	private static final String DELETEBYID = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
 	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?,	 ville = ?, mot_de_passe = ? WHERE no_utilisateur=?";
@@ -184,6 +185,7 @@ public class UserDAOJdbcImpl implements UserDAO{
 		userCourant.setRue(rs.getString("rue"));
 		userCourant.setCpo(rs.getString("code_postal"));
 		userCourant.setVille(rs.getString("ville"));
+		userCourant.setCredit(rs.getInt("credit"));
 		return userCourant;
 	}
 
@@ -251,6 +253,31 @@ public class UserDAOJdbcImpl implements UserDAO{
 		}
 			return pw;
 		
+	}
+
+
+
+	@Override
+	public User selectByEmail(String email)throws BusinessException {
+		User u = new User();
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement ps = cnx.prepareStatement(SELECTBYEMAIL);
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				u = userBuilder(rs);
+			}
+			rs.close();
+			ps.close();
+			cnx.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_USER_ECHEC);
+			throw businessException;
+		}
+			return u;
 	}
 	
 	

@@ -29,7 +29,7 @@ public class Achat extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String dateFinEnchere = request.getParameter(dateFinEnchere);
+	/*	String dateFinEnchere = request.getParameter(dateFinEnchere);
 		Date dateaujourdhui = request.getDateHead;
 		// Comparer les dates de fin d'enchere avec la date d'aujourd'hui
 		// pour afficher les encheres ouvertes
@@ -46,7 +46,7 @@ public class Achat extends HttpServlet {
 		
 		boolean articleRemporté = false;
 		// Afficher les encheres terminer et remporter par cette utilisateur
-		if (articleRemporté = true && dateFinEnchere>dateaujourdhui)
+		if (articleRemporté = true && dateFinEnchere>dateaujourdhui)*/
 	}
 
 	/**

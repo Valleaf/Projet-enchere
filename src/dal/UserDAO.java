@@ -28,6 +28,9 @@ public interface UserDAO {
 	//Recupere le mot de passe d'un utilsateur
 	public String getPW(String s) throws BusinessException;
 
+	//Recupere un utilisateur a partir d'une adresse mail
+	public User selectByEmail(String email) throws BusinessException;
+
 
 	
 

@@ -36,11 +36,10 @@ ${listeErreurs }
 
 <p>
 <a href="${pageContext.request.contextPath}/Achat"><button> Enregistrer</button></a>
-<%-- Les informations doivent se mettre a jour au niveau de la BDD --%> 
-<a href="${pageContext.request.contextPath}/Accueil"><button>Supprimer le Compte</button> </a>
-<%-- Le compte utilisateur doit etre supprimer  --%>
 </p>
 </form>
+
+<a href="${pageContext.request.contextPath}/Delete"><button>Supprimer le Compte</button> </a>
 </div>
 
 </body>

@@ -66,6 +66,10 @@ public class Register extends HttpServlet {
 			listeMsgError.add("Ce pseudo existe deja");
 		}
 		
+		if(Verification.isAlreadyTakenEmail(email)) {
+			listeMsgError.add("Cet adresse email est deja prise");
+		}
+		
 		
 		if (!pw.equals(pw2)) {
 			listeMsgError.add("Le mdp et la confrimation ne sontpas egaux");
@@ -78,7 +82,7 @@ public class Register extends HttpServlet {
 			rd.forward(request, response);
 		} else {
 		User u = new User(pseudo,nom,prenom,email,telephone,rue,ville,cpo);
-		
+		u.setCredit(100);
 		try {
 			um.creerUnCompte(u, pw, false);
 		} catch (SQLException e) {

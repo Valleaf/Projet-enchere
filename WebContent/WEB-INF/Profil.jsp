@@ -12,9 +12,10 @@
 		<jsp:param value="${session.status}" name="isLoggedIn"/>
 </jsp:include>
 </head>
-<body>
+<body class="container-profil">
 
 <h1>Profil</h1>
+<div class="account-box">
 
 <p> Pseudo : ${pseudo}</p><br>
 <p> Nom : ${nom} </p><br> 
@@ -24,6 +25,7 @@
 <p>Rue : ${rue} </p><br>
 <p>Code Postal : ${cpo} </p><br>
 <p>Ville : ${ville} </p><br> 
+</div>
 
 
 

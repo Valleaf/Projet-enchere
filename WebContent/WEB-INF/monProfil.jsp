@@ -26,6 +26,7 @@
 <p class="profil-text">Rue : ${user.rue} </p>
 <p class="profil-text">Code Postal : ${user.cpo} </p>
 <p class="profil-text">Ville : ${user.ville} </p>
+<p class="profil-text">Credit : ${user.credit} </p>
 
 <p><a href="${pageContext.request.contextPath}/ModifierProfil"><button class="bouton-modifier">Modifier</button></a></p>
 </div>

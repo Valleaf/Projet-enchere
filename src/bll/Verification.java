@@ -11,7 +11,6 @@ import javax.management.Query;
 import javax.naming.directory.ModificationItem;
 import javax.servlet.RequestDispatcher;
 
-import org.graalvm.compiler.nodes.calc.IntegerLessThanNode.LessThanOp;
 
 import dal.DAOFactory;
 import exceptions.BusinessException;
@@ -241,6 +240,23 @@ public class Verification {
 		return new VerificationMsgEtBoolean(vrai, listeMsgError);
 	}
 	
+	/**
+	 * Cette fonction regarde dans la base de donnes si compte avec cet email donnee en parametre existe deja
+	 * @param email Le compte a verifier
+	 * @return Vrai si le compte existe deja, faux sinon
+	 */
+	public static boolean isAlreadyTakenEmail(String email) {
+		
+		UserManager um = new UserManager();
+		try {
+			if(um.selectionnerUnUtilisateur(email,1).getEmail() == null) {
+				return false;
+			}
+		} catch (BusinessException e2) {
+			e2.printStackTrace();
+		}
+		return true;
+	}
 	
 	
 
