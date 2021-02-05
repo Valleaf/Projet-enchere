@@ -33,13 +33,14 @@ ${messageerreur }
     <input type="password" name="password"  autocomplete="off" class="form-control-material" required />
     
   </div>
-   <a href="${pageContext.request.contextPath}/Register">Mot de passe oublie</a>
+  
+  <button type="submit" class="login-button">Login</button>
+</form>
+ <a href="${pageContext.request.contextPath}/Register">Mot de passe oublie</a>
 
 <a href="${pageContext.request.contextPath}/Register">
 <button>creeer un compte</button>
 </a>
-  <button type="submit" class="login-button">Login</button>
-</form>
 
   </div>
 

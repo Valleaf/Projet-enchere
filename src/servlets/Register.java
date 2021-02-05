@@ -15,9 +15,11 @@ import javax.servlet.http.HttpSession;
 
 import bll.UserManager;
 import bll.Verification;
+import bll.VerificationMsgEtBoolean;
 import bo.User;
 import dal.DAOFactory;
 import dal.UserDAO;
+import exceptions.BusinessException;
 
 /**
  * Servlet implementation class Register
@@ -51,61 +53,22 @@ public class Register extends HttpServlet {
 		String cpo = request.getParameter("cpo");
 		String ville = request.getParameter("ville");
 		UserManager um = new UserManager();
-
-		
 		List<String> listeMsgError = new ArrayList<>();
-
+		//TODO Faire des codes erreurs constantes au lieu de chaines
+		//TODO Pas forcement besoin de boolean et d'une classe supplementaire
 		
-		//Validation de chaque parametre !
-		//On doit trim et faire une verification qu'il n'y ait pas d'injection SQL
-		//Pseudo doit etre unique et moins de 30 characteres
-		if(!Verification.string(pseudo)) {
-			listeMsgError.add("Pseudo vide ou trop long");
-		}
+		VerificationMsgEtBoolean v = Verification.verificationUtilisateur(pseudo, nom, prenom, email, rue, telephone, cpo, ville, pw, listeMsgError);
+		listeMsgError = v.getListeMsgErreurs();
+		
+		
 		pseudo = Verification.verifString(pseudo);
-		
 		if(Verification.isAlreadyTakenPseudo(pseudo)) {
 			listeMsgError.add("Ce pseudo existe deja");
 		}
 		
 		
-		if(!Verification.string(nom)) {
-			listeMsgError.add("Nom vide ou trop long");
-
-		}
-		
-		if(!Verification.string(prenom)) {
-			listeMsgError.add("Nom vide ou trop long");
-
-		}
-		
-	
-		//Le mot de passe doit etre egal a la confrimation et moins de 30caracteres
-		//minimum 8 avec caractere special, avec majuscule, minuscule
-		//Optionnellement on peut recommander un mdp a l'utilisateur
 		if (!pw.equals(pw2)) {
 			listeMsgError.add("Le mdp et la confrimation ne sontpas egaux");
-		}
-		if (!verificationPW(pw)) {
-			listeMsgError.add("Le nom de passe n'est pas conforme");
-		}
-		if(!verificationEMail(email)) {
-			listeMsgError.add("L'email n'est pas conforme");
-		}
-		
-		if(!verificationTelephone(telephone)) {
-			listeMsgError.add("Le telephone n'est pas conforme");
-		}
-		
-		//verification que l'adresse existe vraiment
-		if(rue==null || rue.length()>30) {
-			listeMsgError.add("ruetroplong ou vide");
-		}
-		if(ville==null || ville.length()>30) {
-			listeMsgError.add("villetroplong ou vide");
-		}
-		if(!verificationCPO(cpo)) {
-			listeMsgError.add("cpoinvalide");
 		}
 		
 		if(listeMsgError.size()>0) {
@@ -125,33 +88,15 @@ public class Register extends HttpServlet {
 		HttpSession session = request.getSession();
 		String isLoggedIn = "Connecté";
 		session.setAttribute("status", isLoggedIn);		
-		//TODO recuperer l'id au lieu du pseudo
-		session.setAttribute("id", pseudo);
-		RequestDispatcher rd = request.getRequestDispatcher("/Achat.html");
+		try {
+			session.setAttribute("user", um.selectionnerUnUtilisateur(pseudo));
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = request.getRequestDispatcher("/");
 		rd.forward(request, response);
 		}
-	}
-
-	private boolean verificationCPO(String cpo) {
-		//Possible? verification de la ville
-		//cpo doit etre entre 00999 et 99999
-		return true;
-	}
-
-	private boolean verificationTelephone(String telephone) {
-		return true;
-	}
-
-	private boolean verificationEMail(String email) {
-		//Fonctions a voir :
-		//verifier que l'email est valide selon un regex
-		//Verifier que l'email n;est pas jetable
-		//Verifier que l'email existe vraiment
-		return true;
-	}
-
-	private boolean verificationPW(String pw) {
-		return true;
 	}
 
 }

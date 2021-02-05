@@ -13,7 +13,7 @@
 
 <%--Affichage de la barre en mode connectee 
 sinon affichage de la barre non connectee--%>
-
+<%--TODO: Bug , parfois la barre en mode connecté s'affiche, cela ne devrait pas etre le cas --%>
  
   <div class="nav-bar">
 
