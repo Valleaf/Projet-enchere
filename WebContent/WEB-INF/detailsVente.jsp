@@ -28,6 +28,16 @@
 				<div>date debut: <c:out value="${ dataArticle.dateDebut }" /></div>
 				<div>date fin: <c:out value="${ dataArticle.dateFin }" /></div>
 				<div>prix: <c:out value="${ dataArticle.prixInitial }" /></div>
+				<c:if test="${0 <=  (user.credit-dataArticle.prixInitial)}">
+				Enchere possible :
+				<div>
+				<form action="${pageContext.request.contextPath}/Encherir">
+				  <input type="hidden"  name="articleID" value="${dataArticle.noArticle}"> 
+				<input type="number" name="encherePrix" min="${dataArticle.prixInitial+1 }" max="${ user.credit-dataArticle.prixInitial}" >
+				<input type="submit">
+				</form></div>
+				
+				</c:if>
 				<div><a href="${pageContext.request.contextPath}/Profils?id=${ dataArticle.noUtilisateur }">Utilisateur: <c:out value="${ dataArticle.noUtilisateur }" /></a></div>
 				
 			</div>

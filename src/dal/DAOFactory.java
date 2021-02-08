@@ -1,6 +1,7 @@
 package dal;
 
 import dal.jdbc.ArticleDAOJdbcImpl;
+import dal.jdbc.EnchereDAOJdbcImpl;
 import dal.jdbc.UserDAOJdbcImpl;
 
 public class DAOFactory {
@@ -10,5 +11,9 @@ public class DAOFactory {
 
 	public static UserDAO getUserDAO() {
 			return new UserDAOJdbcImpl();
+	}
+
+	public static EnchereDAO getEnchereDAO() {
+		return new EnchereDAOJdbcImpl();
 	}
 }

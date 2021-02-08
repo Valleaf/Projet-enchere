@@ -58,6 +58,11 @@ public class RegisterArticle extends HttpServlet {
 		int categorie = Integer.parseInt(request.getParameter("categorieArticle"));
 		String heureDebutString = request.getParameter("heureDebut");
 		String heureFinString = request.getParameter("heureFin");
+		/*TODO : integration firefox
+		 * if(heureDebutString == null) {
+			heureDebutString = request.getParameter("dateDebut");
+			heureFinString = request.getParameter("dateFin");
+		}*/
 		Timestamp heureDebut = null;
 		Timestamp heureFin = null;
 		int prixInitial = Integer.parseInt(request.getParameter("prixInitial"));

@@ -27,7 +27,6 @@
 <p class="profil-text">Code Postal : ${dataUser.cpo} </p>
 <p class="profil-text">Ville : ${dataUser.ville} </p>
 
-<p><a href="${pageContext.request.contextPath}/ModifierProfil"><button class="bouton-modifier">Modifier</button></a></p>
 </div>
 </body>
 

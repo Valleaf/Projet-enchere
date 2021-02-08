@@ -16,7 +16,7 @@ public class Article {
 	private Integer noCategorie;
 	private String etatVente;
 	private String Image;
-	
+
 	public Article() {
 		
 	}
