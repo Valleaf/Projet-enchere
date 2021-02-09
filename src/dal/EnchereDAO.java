@@ -12,4 +12,6 @@ public interface EnchereDAO {
 
 	public Enchere selectByID(int idArticle, int idUser) throws BusinessException;
 
+	public Enchere selectHighest(int noArticle) throws BusinessException;
+
 }

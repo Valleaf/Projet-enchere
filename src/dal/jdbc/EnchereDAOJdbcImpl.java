@@ -18,6 +18,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
 	private static final String INSERT = "INSERT INTO encheres VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE encheres SET date_enchere = ?, montant_enchere = ? WHERE no_utilisateur= ? AND no_article = ?";
 	private static final String SELECTBYIDANDID = "SELECT no_utilisateur, no_article ,date_enchere ,montant_enchere  FROM ENCHERES  WHERE no_utilisateur= ? AND no_article = ?";
+	private static final String SELECTHIGHEST = " SELECT * from ENCHERES WHERE no_article = ? AND no_utilisateur IN (SELECT no_utilisateur from ENCHERES WHERE no_article = ? AND montant_enchere IN ( SELECT  MAX(montant_enchere) FROM ENCHERES ) )";
 	
 	@Override
 	public void insert(Enchere e) throws BusinessException {
@@ -31,11 +32,13 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
 		try(Connection cnx = ConnectionProvider.getConnection()){
 			try {
 				PreparedStatement ps = cnx.prepareStatement(INSERT);
+				System.out.println(e.toString());
 				ps.setInt(1, e.getNoUser());
 				ps.setInt(2, e.getNoArticle());
 				ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 				ps.setInt(4, e.getPrixEnchere());
 				ps.execute();
+				System.out.println("Execution");
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				BusinessException businessException = new BusinessException();
@@ -58,7 +61,6 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
 		
 		try(Connection cnx = ConnectionProvider.getConnection()){
 			try {
-				System.out.println("Dans la dao");
 				PreparedStatement ps = cnx.prepareStatement(UPDATE);
 				ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 				ps.setInt(2, e.getPrixEnchere());
@@ -112,6 +114,30 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
 		return enchereCourant;
 	}
 	
+	public Enchere selectHighest(int noArticle) throws BusinessException {
+		Enchere e = new Enchere();
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement ps = cnx.prepareStatement(SELECTHIGHEST);
+			ps.setInt(1, noArticle);
+			ps.setInt(2, noArticle);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				e = enchereBuilder(rs);
+			}
+			rs.close();
+			ps.close();
+			cnx.close();
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_USER_ECHEC);
+			throw businessException;
+		}
+			return e;
+	
+		
+	}
 	
 	
 

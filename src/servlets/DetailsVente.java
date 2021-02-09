@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bll.ArticleManager;
+import bll.EnchereManager;
 import bo.Article;
+import bo.Enchere;
+import bo.User;
 
 /**
  * Servlet implementation class DetailsVente
@@ -34,14 +38,34 @@ public class DetailsVente extends HttpServlet {
 		} else {
 			String idArticle = request.getParameter("id");
 			ArticleManager am = new ArticleManager();
+			EnchereManager em = new EnchereManager();
 			Article art = null;
+			Enchere e = null;
+			boolean isOver = true;
+			boolean isStarted = true;
+			Timestamp t = new Timestamp(System.currentTimeMillis());
+			
 			try {
 				art = am.selectionnerUnArticle(Integer.parseInt(idArticle));
-			} catch (NumberFormatException | SQLException e) {
-				e.printStackTrace();
+				e = em.selectionnerEnchereLaPlusHaute(art.getNoArticle());
+			} catch (NumberFormatException | SQLException e1) {
+				e1.printStackTrace();
 			}
 			request.setAttribute("dataArticle", art);
 			
+			if (e.getPrixEnchere()==null) {
+				e = new Enchere();
+				e.setPrixEnchere(art.getPrixInitial());
+			}
+			request.setAttribute("enchereActive", e);
+			if( t.before(art.getDateFin()) ) 
+				isOver = false;
+			if(t.before(art.getDateDebut()))
+				isStarted=false;
+			
+			request.setAttribute("over",isOver);
+			request.setAttribute("started",isStarted);
+			//TODO le debit/remboursement de credits
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/detailsVente.jsp");
 			rd.forward(request, response);
 		}
