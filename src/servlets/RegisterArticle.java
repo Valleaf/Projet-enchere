@@ -24,7 +24,7 @@ import bo.Article;
 import bo.User;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class RegisterArticle
  */
 @WebServlet("/RegisterArticle")
 public class RegisterArticle extends HttpServlet {
@@ -58,6 +58,7 @@ public class RegisterArticle extends HttpServlet {
 		int categorie = Integer.parseInt(request.getParameter("categorieArticle"));
 		String heureDebutString = request.getParameter("heureDebut");
 		String heureFinString = request.getParameter("heureFin");
+		Timestamp aujourdhui = new Timestamp(System.currentTimeMillis());
 		/*TODO : integration firefox
 		 * if(heureDebutString == null) {
 			heureDebutString = request.getParameter("dateDebut");
@@ -109,7 +110,7 @@ public class RegisterArticle extends HttpServlet {
 			newArticle.setPrixInitial(prixInitial);
 			newArticle.setNoUtilisateur(id);
 			newArticle.setNoCategorie(categorie);
-			newArticle.setEtatVente("EC");
+			newArticle.setEtatVente("CR");
 			newArticle.setImage(image);
 			ArticleManager am = new ArticleManager();
 			try {
