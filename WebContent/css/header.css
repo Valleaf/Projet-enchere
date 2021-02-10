@@ -19,9 +19,18 @@ Ce fichier contient la css du header et du footer
   font-size: 17px;
   color: #a6f0c6;
 }
+
+.left{
+	float: left;
+}
 /* On place certains elements a droite  */
 .right {
   float: right;
+}
+
+.searchForm{
+	padding: 10px 15px;
+	display: inline-block;
 }
 
 /* Changement de couleur des liens en hover */
