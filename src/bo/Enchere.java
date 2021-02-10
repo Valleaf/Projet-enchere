@@ -20,6 +20,12 @@ public class Enchere {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "Enchere [noUser=" + noUser + ", noArticle=" + noArticle + ", dateEnchere=" + dateEnchere
+				+ ", prixEnchere=" + prixEnchere + "]";
+	}
+
 	public Integer getNoUser() {
 		return noUser;
 	}

@@ -31,6 +31,8 @@ public interface UserDAO {
 	//Recupere un utilisateur a partir d'une adresse mail
 	public User selectByEmail(String email) throws BusinessException;
 
+	public void updateCredit(User u) throws BusinessException;
+
 
 	
 

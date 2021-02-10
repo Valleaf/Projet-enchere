@@ -115,17 +115,19 @@ public class ModifierProfil extends HttpServlet {
 			rd.forward(request, response);
 		} else {
 		User u = new User(pseudo,nom,prenom,email,telephone,rue,ville,cpo);
+		u.setNumero(ancienpseudo.getNumero());
 			
 		try {
-			um.creerUnCompte(u, pw, false);
-		} catch (SQLException e) {
+			um.mettreAJourUnUtilisateur(u,pw);
+			System.out.println("test");
+		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Il faut que l'utilisateur se connecte et retourne a l'accueil
 		String isLoggedIn = "Connecté";
 		session.setAttribute("status", isLoggedIn);		
-		session.setAttribute("id", pseudo);
+		session.setAttribute("user", u);
 		RequestDispatcher rd = request.getRequestDispatcher("/");
 		rd.forward(request, response);
 		}

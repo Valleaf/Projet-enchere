@@ -27,6 +27,8 @@ public class UserDAOJdbcImpl implements UserDAO{
 	private static final String SELECTBYPSEUDOPW = "SELECT mot_de_passe FROM UTILISATEURS WHERE pseudo LIKE ?";
 	private static final String DELETEBYID = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
 	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?,	 ville = ?, mot_de_passe = ? WHERE no_utilisateur=?";
+	private static final String UPDATECREDIT = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur=?";
+
 	
 	
 	/**
@@ -54,7 +56,7 @@ public class UserDAOJdbcImpl implements UserDAO{
 				ps.setString(7, u.getCpo());
 				ps.setString(8, u.getVille());
 				ps.setString(9, Verification.encrypt(pw));
-				ps.setInt(10,u.getCredit());
+				ps.setInt(10,100);
 				ps.setInt(11, isAdmin? 1 : 0);
 				ps.executeUpdate();
 				ResultSet rs = ps.getGeneratedKeys();
@@ -212,7 +214,37 @@ public class UserDAOJdbcImpl implements UserDAO{
 				ps.setString(9, Verification.encrypt(pw));
 				ps.setInt(10,u.getNumero());
 				ps.executeUpdate();
-
+				ps.close();
+				cnx.commit();
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				BusinessException businessException = new BusinessException();
+				businessException.ajouterErreur(CodesResultatDAL.MODIFIER_OBJET_ECHEC);
+				throw businessException;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	}
+	
+	@Override
+	public void updateCredit(User u) throws BusinessException {
+		if(u==null)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
+		}
+		
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			try {
+				PreparedStatement ps = cnx.prepareStatement(UPDATECREDIT);
+				ps.setInt(1, u.getCredit());
+				ps.setInt(2,u.getNumero());
+				ps.executeUpdate();
 				ps.close();
 				cnx.commit();
 			}

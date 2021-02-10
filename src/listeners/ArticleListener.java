@@ -9,8 +9,11 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import bll.UserManager;
 import bll.ArticleManager;
 import bo.Article;
+import bo.User;
+import exceptions.BusinessException;
 
 /**
  * Application Lifecycle Listener implementation class ArticleListener
@@ -48,6 +51,7 @@ public class ArticleListener implements ServletContextListener {
 			public void run() {
 				try {
 					while(start){
+						UserManager um = new UserManager();
 						ArticleManager am = new ArticleManager();
 						List<Article> list = new ArrayList<Article>();
 						Timestamp aujourdhui = new Timestamp(System.currentTimeMillis());
@@ -63,7 +67,17 @@ public class ArticleListener implements ServletContextListener {
 									case "EC": if(article.getDateFin().before(aujourdhui)) {
 							    		article.setEtatVente("VD");
 							    		am.modifierUnArticles(article);
-							    	} break;
+							    		try {
+											User u = um.selectionnerUnUtilisateur(article.getNoUtilisateur());
+											u.setCredit(u.getCredit() + article.getPrixVente());
+											um.mettreAJourUnUtilisateurCredit(u);
+										} catch (BusinessException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+							    		
+							    		
+							    		} break;
 							    	default: break;
 								}
 							}

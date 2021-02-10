@@ -18,9 +18,11 @@ import javax.servlet.http.HttpSession;
 import bll.ArticleManager;
 import bll.EnchereManager;
 import bll.UserManager;
+import bll.Verification;
 import bo.Article;
 import bo.Enchere;
 import bo.User;
+import exceptions.BusinessException;
 
 /**
  * Servlet implementation class Encherir
@@ -36,6 +38,7 @@ public class Encherir extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		User u = (User) session.getAttribute("user");
+		User uPrecedent = null;
 		Article a = null;
 		
 		ArticleManager am = new ArticleManager();
@@ -57,44 +60,68 @@ public class Encherir extends HttpServlet {
 			e1.printStackTrace();
 		}
 
-		System.out.println(id);
-		System.out.println(u.getNumero());
-		System.out.println(t);
-		System.out.println(prix);
 		
 		Enchere bid = new Enchere(u.getNumero(),id,t,prix);
-		Enchere eux = null;
+		Enchere eOfUser = null;
+		Enchere highest = null;
+		//On regarde si l'utilisateur a deja encheri sur l'item
 		try {
-			eux = em.selectionnerUneEnchereAvecIds(id,u.getNumero());
+			eOfUser = em.selectionnerUneEnchereAvecIds(id,u.getNumero());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		//On cherche l'enchere la plus haute
+		try {
+			highest = em.selectionnerEnchereLaPlusHaute(id);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
-		System.out.println(eux.getNoUser());
-		System.out.println(eux.getDateEnchere());
-		System.out.println(eux.getNoArticle());
-		System.out.println(eux.getPrixEnchere());
+		//On cree l'enchere et on debite l'acheteur
+		try {
+			if(eOfUser.getNoUser() != null) {
+				eOfUser = bid;
+				em.mettreAJourUneEnchere(eOfUser);
+			} else {
+				em.creerUneEnchere(bid);
+			}
+			u.setCredit(u.getCredit() - prix);
+			um.mettreAJourUnUtilisateurCredit(u);
+		} catch (SQLException | BusinessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		if (eux.getNoUser() == bid.getNoUser()) {
+		//On rembourse l'acheteur de l'enchere precedente
+		if (highest.getNoUser() != null) {
 			try {
-				em.mettreAJourUneEnchere(bid);
-				System.out.println("test");
-			} catch (SQLException e) {
+				uPrecedent = um.selectionnerUnUtilisateur(highest.getNoUser());
+				uPrecedent.setCredit(uPrecedent.getCredit() + highest.getPrixEnchere());
+				um.mettreAJourUnUtilisateurCredit(uPrecedent);
+			} catch (BusinessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-		
-		try {
-			em.creerUneEnchere(bid);
-			System.out.println("test");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
-		}
+		//TODO: on pourrait utiliser l'etat de l'article a la place
+		boolean isOver = true;
+		if( t.before(a.getDateFin()) ) 
+			isOver = false;
+		
+		boolean isStarted = true;
+		if(t.after(a.getDateDebut()) ) 
+			isStarted = false;
+		
+		
+		
+		
+		request.setAttribute("over",isOver);
+		request.setAttribute("started",isStarted);
+		request.setAttribute("time",new Timestamp(System.currentTimeMillis()));
+		request.setAttribute("enchereActive", bid);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/detailsVente.jsp");
 		rd.forward(request, response);

@@ -48,7 +48,16 @@ public class EnchereManager {
 			e.printStackTrace();
 		}
 		return null;
-		
+	}
+	
+	public Enchere selectionnerEnchereLaPlusHaute(int noArticle) throws SQLException {
+		try {
+			return this.enchereDAO.selectHighest(noArticle);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

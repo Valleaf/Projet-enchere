@@ -18,7 +18,6 @@
 
 
 <body>
-
   </a>
 <div class="listeArticles">
 		<div class="article">
@@ -27,14 +26,26 @@
 				<div>desc: <c:out value="${ dataArticle.description }" /></div>
 				<div>date debut: <c:out value="${ dataArticle.dateDebut }" /></div>
 				<div>date fin: <c:out value="${ dataArticle.dateFin }" /></div>
-				<div>prix: <c:out value="${ dataArticle.prixInitial }" /></div>
-				<c:if test="${0 <=  (user.credit-dataArticle.prixInitial)}">
+				<div>prix initial: <c:out value="${ dataArticle.prixInitial }" /></div>
+				<c:if test="${enchereActive.prixEnchere != null }">
+				<div>prix actuel: <c:out value="${ enchereActive.prixEnchere }" /></div>
+				</c:if>
+		
+				
+		
+				
+				<c:if test="${(0 <=  (user.credit-enchereActive.prixEnchere + 1 ))&& !over && started}">
 				Enchere possible :
 				<div>
+				<%--TODO  Message d'erreur quand pas assez de credits--%>
 				<form action="${pageContext.request.contextPath}/Encherir">
 				  <input type="hidden"  name="articleID" value="${dataArticle.noArticle}"> 
-				<input type="number" name="encherePrix" min="${dataArticle.prixInitial+1 }" max="${ user.credit-dataArticle.prixInitial}" >
-				<input type="submit">
+				  <c:if test="${enchereActive.noUser == user.numero }">
+				<input type="number" name="encherePrix" min="${enchereActive.prixEnchere +1 }" max="${ user.credit + enchereActive.prixEnchere}" >
+				</c:if>
+				  <c:if test="${enchereActive.noUser != user.numero }">
+				<input type="number" name="encherePrix" min="${enchereActive.prixEnchere +1 }" max="${ user.credit}" >
+				</c:if>				<input type="submit">
 				</form></div>
 				
 				</c:if>

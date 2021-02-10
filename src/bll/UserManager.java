@@ -53,4 +53,8 @@ public class UserManager {
 		return this.userDAO.selectByEmail(email);
 	}
 
+	public void mettreAJourUnUtilisateurCredit(User u) throws BusinessException {
+		this.userDAO.updateCredit(u);
+	}
+
 }
