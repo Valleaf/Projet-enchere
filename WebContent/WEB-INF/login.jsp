@@ -21,6 +21,8 @@ ${messageerreur }
 <div class="container-login">
 
 <form class="login-form" action="${pageContext.request.contextPath}/Login" method="post">
+<%--Version basique --%>
+  <c:if test="${cookie.loginAuto.getValue() != true}">
   <h2>Se Connecter</h2>
   <div class="form-input-material">
   <label for="pseudo">Pseudo</label>
@@ -33,8 +35,29 @@ ${messageerreur }
     <input type="password" name="password"  autocomplete="off" class="form-control-material" required />
     
   </div>
-  
+  <label for="remember">Se souvenir du login ?</label>
+  <input type="checkbox" name="remember">
   <button type="submit" class="login-button">Login</button>
+  </c:if>
+  <%--Version avec cookie Se souvenir du login --%>
+  <c:if test="${cookie.loginAuto.getValue() == true}">
+  <h2>Se Connecter</h2>
+  <div class="form-input-material">
+  <label for="pseudo">Pseudo</label>
+  <br>
+    <input type="text" name="pseudo" value="${cookie.login.getValue()}" autocomplete="off" class="form-control-material" required />
+    
+  </div>
+  <div class="form-input-material">
+  <label for="password">Mot de Passe</label><br>
+    <input type="password" name="password" value="${cookie.pw.getValue()}" autocomplete="off" class="form-control-material" required />
+    
+  </div>
+  <label for="remember">Se souvenir du login ?</label>
+  <input type="checkbox" name="remember">
+  <button type="submit" class="login-button">Login</button>
+  </c:if>
+  
 </form>
  <a href="${pageContext.request.contextPath}/Register">Mot de passe oublie</a>
 

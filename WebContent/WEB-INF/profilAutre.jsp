@@ -16,7 +16,7 @@
 		<jsp:param value="${session.status}" name="isLoggedIn"/>
 </jsp:include>
 <body class="container-profil">
-<h1 class="page-title">Mon  Profil</h1>
+<h1 class="page-title">Profil TEST</h1>
 <div class="account-box">
 <p class="profil-text"> Pseudo : ${dataUser.pseudo}</p>
 <p class="profil-text"> Nom : ${dataUser.nom} </p>
@@ -26,9 +26,16 @@
 <p class="profil-text">Rue : ${dataUser.rue} </p>
 <p class="profil-text">Code Postal : ${dataUser.cpo} </p>
 <p class="profil-text">Ville : ${dataUser.ville} </p>
-
+<c:if test="${user.admin == true}">
+<form action="${pageContext.request.contextPath}/Delete" method="post">
+Supprimer ce compte?
+<input type="hidden" value="${dataUser.numero}" name="idUser">
+<input type="submit" value="Supprimer">
+</form>
+</c:if>
 </div>
 </body>
+
 
 
 <%@ include file="footer.html"%>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,10 +52,26 @@ public class Login extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-	
+			Cookie[] cookies = request.getCookies();
 			String pseudo = request.getParameter("pseudo");
 			String password = request.getParameter("password");
 
+			
+			//Si la case remember est cochee, on cree un cookie pour la valeur
+			boolean b = request.getParameter("remember") != null ? true : false;
+			if(b) {
+				Cookie log= new Cookie("loginAuto", "true");
+				log.setMaxAge(Integer.MAX_VALUE);
+				Cookie login = new Cookie("login",pseudo);
+				login.setMaxAge(Integer.MAX_VALUE);
+				Cookie pw = new Cookie("pw",password);
+				pw.setMaxAge(Integer.MAX_VALUE);
+				response.addCookie(login);
+				response.addCookie(pw);
+				response.addCookie(log);
+			}
+			
+			
 			//On verifie que les champs soient remplis
 			if(pseudo.isBlank()|| password.isBlank()) {
 				request.setAttribute("messageerreur",CodesResultatServlets.LOGIN_VIDE_ERREUR);

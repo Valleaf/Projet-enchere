@@ -188,6 +188,8 @@ public class UserDAOJdbcImpl implements UserDAO{
 		userCourant.setCpo(rs.getString("code_postal"));
 		userCourant.setVille(rs.getString("ville"));
 		userCourant.setCredit(rs.getInt("credit"));
+		boolean b = rs.getByte("administrateur") == 1 ? true : false;
+		userCourant.setAdmin(b);
 		return userCourant;
 	}
 

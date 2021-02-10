@@ -33,7 +33,7 @@ public class ArticleListener implements ServletContextListener {
      */
     @SuppressWarnings("deprecation")
 	public void contextDestroyed(ServletContextEvent sce)  { 
-    	System.out.println("L'application Livecoding5 s'est arretée !");
+    	System.out.println("L'application s'est arretée !");
     	start = false;
     	asyncTask.stop();
     	System.out.println("Le traitement asychrone s'arrete !");
@@ -43,7 +43,7 @@ public class ArticleListener implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent sce)  { 
-    	System.out.println("L'application Livecoding5 a démarré !");
+    	System.out.println("L'application a démarré !");
   	  	//description du traitement associé à la tâche asynchrone
     	asyncTask =  new Thread(new Runnable() {
 			

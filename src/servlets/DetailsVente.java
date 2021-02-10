@@ -29,13 +29,7 @@ public class DetailsVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String isLoggedIn2 = (String) session.getAttribute("status");
-		if(!(isLoggedIn2 != null && isLoggedIn2.equals("Connecté"))) {
-			RequestDispatcher rd = request.getRequestDispatcher("/Login");
-			rd.forward(request, response);
-			return;
-		} else {
+		
 			String idArticle = request.getParameter("id");
 			ArticleManager am = new ArticleManager();
 			EnchereManager em = new EnchereManager();
@@ -51,7 +45,9 @@ public class DetailsVente extends HttpServlet {
 			} catch (NumberFormatException | SQLException e1) {
 				e1.printStackTrace();
 			}
+			
 			request.setAttribute("dataArticle", art);
+		
 			
 			if (e.getPrixEnchere()==null) {
 				e = new Enchere();
@@ -65,10 +61,9 @@ public class DetailsVente extends HttpServlet {
 			
 			request.setAttribute("over",isOver);
 			request.setAttribute("started",isStarted);
-			//TODO le debit/remboursement de credits
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/detailsVente.jsp");
 			rd.forward(request, response);
-		}
+		
 	}
 
 	/**

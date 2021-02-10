@@ -52,8 +52,28 @@ public class SupressionCompte extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		//Le post sert pour la suppression depuis un administrateur
+		UserManager um = new UserManager();
+		HttpSession session = request.getSession();
+		String isLoggedIn2 = (String) session.getAttribute("status");
+		if(isLoggedIn2 != null && isLoggedIn2.equals("Connecté")) {
+			String userID =  request.getParameter("idUser");
+			int id = Integer.parseInt(userID);
+			try {
+				um.supprimerUnUtilisateur(id);
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/");
+			rd.forward(request, response);
+			return;
+		}
+		RequestDispatcher rd = request.getRequestDispatcher("/");
+		rd.forward(request, response);
+		
 	}
 
 }

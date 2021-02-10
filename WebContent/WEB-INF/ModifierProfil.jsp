@@ -20,20 +20,17 @@ ${listeErreurs }
 <div class="account-box">
 
 <form action="${pageContext.request.contextPath}/ModifierProfil" method="post">
-<p> Pseudo : <input type="text" name="pseudo"> </p>
-<p> Nom : <input type="text" name="nom"></p>
-<p> Prenom : <input type="text" name="prenom"></p>
-<p> Telephone : <input type="text" name="telephone"></p>
-<p> Code postal : <input type="text" name="cpo"></p>
-<p> Email : <input type="email" name="email"></p>
-<p> Rue : <input type="text" name="rue"></p>
-<p> Ville : <input type="text" name="ville"></p>
+<p> Pseudo : <input type="text" name="pseudo" value="${user.pseudo}"> </p>
+<p> Nom : <input type="text" name="nom" value="${user.nom}"></p>
+<p> Prenom : <input type="text" name="prenom" value="${user.prenom}"></p>
+<p> Telephone : <input type="text" name="telephone" value="${user.telephone}"></p>
+<p> Code postal : <input type="text" name="cpo" value="${user.cpo}"></p>
+<p> Email : <input type="email" name="email" value="${user.email}"></p>
+<p> Rue : <input type="text" name="rue" value="${user.rue}"></p>
+<p> Ville : <input type="text" name="ville" value="${user.ville}"></p>
 <p> Mot de Passe Actuel : <input type="password" name ="currentPassword"></p>
 <p> Nouveau Mot de Passe : <input type="password" name="pw"></p>
 <p> Confirmation : <input type="password" name="pw2"></p>
-
-<p> Credit : Faire afficher le nombre de credit restant </p>
-
 <p>
 <a href="${pageContext.request.contextPath}/Achat"><button> Enregistrer</button></a>
 </p>

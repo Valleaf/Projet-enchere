@@ -53,7 +53,7 @@
 				
 			</div>
 			<div class="articleImgBox">
-					image
+					<img src="${dataArticle.image}" alt="Image de l'enchere" width="300px">
 			</div>
 		</div>
 </div>

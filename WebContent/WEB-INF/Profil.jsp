@@ -13,8 +13,8 @@
 </jsp:include>
 </head>
 <body class="container-profil">
-
-<h1>Profil</h1>
+TEST TEST TEST
+<h1>Profil TEST</h1>
 <div class="account-box">
 
 <p> Pseudo : ${pseudo}</p><br>
@@ -25,7 +25,10 @@
 <p>Rue : ${rue} </p><br>
 <p>Code Postal : ${cpo} </p><br>
 <p>Ville : ${ville} </p><br> 
+
 </div>
+
+
 
 
 
