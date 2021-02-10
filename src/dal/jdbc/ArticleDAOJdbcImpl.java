@@ -13,13 +13,13 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	private static final String SQLINSERT = "insert into ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image) VALUES (?,?,?,?,?,?,?,?,?,?)";
 	private static final String SQLUPDATE = "update ARTICLES_VENDUS set nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? where no_article=?";
 	private static final String SQLDELETE = "delete from ARTICLES_VENDUS where no_article=?";
-	private static final String SQLSELECTALL = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS";
-	private static final String SQLSELECTBYID = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_article=?";
-	private static final String SQLSELECTBYUSER = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_utilisateur=?";
-	private static final String SQLSELECTBYCATEGORIE = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_categorie=?";
-	private static final String SQLSELECTBYNAME = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where nom_article LIKE ?";
-	private static final String SQLSELECTBYNAMEANDCATEGORIE = "select no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image from ARTICLES_VENDUS where no_categorie=? and nom_article LIKE ?";
-	
+	private static final String SQLSELECTALL = "select * from ARTICLES_VENDUS";
+	private static final String SQLSELECTBYID = "select * from ARTICLES_VENDUS where no_article=?";
+	private static final String SQLSELECTBYUSER = "select * from ARTICLES_VENDUS where no_utilisateur=?";
+	private static final String SQLSELECTBYCATEGORIE = "select * from ARTICLES_VENDUS where no_categorie=?";
+	private static final String SQLSELECTBYNAME = "select * from ARTICLES_VENDUS where nom_article LIKE ?";
+	private static final String SQLSELECTBYNAMEANDCATEGORIE = "select * from ARTICLES_VENDUS where no_categorie=? and nom_article LIKE ?";
+	private static final String SQLSELECTBYPAGE = "select * from ARTICLES_VENDUS ORDER BY no_article OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY ";
 	@Override
 	public void insert(Article data) throws SQLException {
 		
@@ -331,6 +331,42 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		{
 			e.printStackTrace();
 			throw new SQLException("selectByAll failed - " , e);
+		}
+		return liste;
+	}
+	
+	@Override
+	public List<Article> selectByPage(int offset) throws SQLException {
+		List<Article> liste = new ArrayList<Article>();
+		Article art = null;
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pstmt = cnx.prepareStatement(SQLSELECTBYPAGE);
+			pstmt.setInt(1, offset);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				art = new Article(
+					rs.getInt("no_article"),
+					rs.getString("nom_article"),
+					rs.getString("description"),
+					rs.getTimestamp("date_debut_enchere"),
+					rs.getTimestamp("date_fin_enchere"),
+					rs.getInt("prix_initial"),
+					rs.getInt("prix_vente"),
+					rs.getInt("no_utilisateur"),
+					rs.getInt("no_categorie"),
+					rs.getString("etat_vente"),
+					rs.getString("image")
+				);
+				liste.add(art);
+			}
+			rs.close();
+			pstmt.close();
+			cnx.close();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new SQLException("selectByPage failed - " , e);
 		}
 		return liste;
 	}

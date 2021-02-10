@@ -71,4 +71,8 @@ public class ArticleManager {
 		this.articleDAO.delete(id);
 		
 	}
+
+	public List<Article> selectionnerParPage(int offset) throws SQLException {
+		return this.articleDAO.selectByPage(offset);
+	}
 }

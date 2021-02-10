@@ -34,4 +34,6 @@ public interface ArticleDAO {
 	//Supprimer un article
 	public void delete(int id) throws SQLException;
 
+	public List<Article> selectByPage(int offset) throws SQLException;
+
 }

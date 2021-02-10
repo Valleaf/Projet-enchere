@@ -43,6 +43,7 @@ public class Accueil extends HttpServlet {
 		List<Article> listeA = new ArrayList<>(); 
 		
 		ArticleManager am = new ArticleManager();
+
         if(categorieFiltre != 0) {
         	if(nomFiltre != null) {
         		try {
@@ -83,8 +84,37 @@ public class Accueil extends HttpServlet {
     			e.printStackTrace();
     		}        	
         }
+		if(listeA.size() <= 6) {
+	 		request.setAttribute("listeArticles", listeA);
+			int nombreDePage = 1;
+			request.setAttribute("nombreDePage", nombreDePage);
+		}else {
+			int nombreDePage = (listeA.size() / 6)+1;
+			System.out.println(nombreDePage);
+			request.setAttribute("nombreDePage", nombreDePage);
+			String spageid = request.getParameter("page");
+			if(spageid != null) {
+				int pageid= Integer.parseInt(spageid);
+				pageid=pageid-1;
+	 			pageid=pageid*6;
 
-		request.setAttribute("listeArticles", listeA);
+		 		try {
+					listeA = am.selectionnerParPage(pageid);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		 		request.setAttribute("listeArticles", listeA);
+			}else {
+				spageid = "0";
+				int pageid= Integer.parseInt(spageid);
+		 		try {
+					listeA = am.selectionnerParPage(pageid);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		 		request.setAttribute("listeArticles", listeA);
+			}
+		}
 				
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/index.jsp");
 		rd.forward(request, response);

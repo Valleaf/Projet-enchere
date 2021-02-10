@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,6 @@
 <body>
 
 <%--on fait un foreach sur chaque element de listeArticles qu'on affiche dans une boite--%>
-
 <div class="container">
 	<div class="listeArticles">
 		<c:forEach items="${listeArticles}" var="article" varStatus="status" >
@@ -64,6 +64,26 @@
 			</div>
 		</c:forEach>
 	</div>
+	<c:choose>
+   		<c:when test="${ nombreDePage >= 1 }">
+   			<c:set var="currentPage" value="${ param['page'] }" />
+			<nav aria-label="Search results pages" class="nav-container">
+			   <ul class="pagination">
+			      <li class="page-item disabled">
+			         <a class="page-link" href="#" tabindex="-1">Previous</a>
+			      </li>
+			      <c:forEach var="i" begin="1" end="${ nombreDePage }" step="1">
+				      <li class="page-item ${ currentPage == i ? 'active' : '' }">			      
+				        <a class="page-link" href="?page=${ i }">${ i }</a>
+				      </li>			      
+			      </c:forEach>
+			      <li class="page-item">
+			         <a class="page-link" href="#">Next</a>
+			      </li>
+			   </ul>
+			</nav>
+		</c:when> 
+	</c:choose>
 </div>
 
 </body>
