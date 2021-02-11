@@ -377,8 +377,9 @@ Partie pour la page Mon Profil
 	width: 8px;
 }
 
+
 .myListeArticles::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.5);        /* color of the tracking area */
+  background: rgba(255, 255, 255, 0.5);       /* color of the tracking area */
   border-radius: 20px;
 }
 

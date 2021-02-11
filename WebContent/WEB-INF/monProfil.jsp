@@ -26,18 +26,18 @@
 	<div class="container-profil">
 		<h1 class="page-title">Mon  Profil</h1>
 		<div class="account-box">
-		<p class="profil-text"> Pseudo : ${user.pseudo}</p>
-		<p class="profil-text"> Nom : ${user.nom} </p>
-		<p class="profil-text">Prenom : ${user.prenom} </p>
-		<p class="profil-text">Email : ${user.email} </p>
-		<p class="profil-text">Telephone : ${user.telephone}</p> 
-		<p class="profil-text">Rue : ${user.rue} </p>
-		<p class="profil-text">Code Postal : ${user.cpo} </p>
-		<p class="profil-text">Ville : ${user.ville} </p>
-		<p class="profil-text">Credit : ${user.credit} </p>
-		
-		<p><a href="${pageContext.request.contextPath}/ModifierProfil"><button class="bouton-modifier">Modifier</button></a></p>
-	</div>
+			<p class="profil-text"> Pseudo : ${user.pseudo}</p>
+			<p class="profil-text"> Nom : ${user.nom} </p>
+			<p class="profil-text">Prenom : ${user.prenom} </p>
+			<p class="profil-text">Email : ${user.email} </p>
+			<p class="profil-text">Telephone : ${user.telephone}</p> 
+			<p class="profil-text">Rue : ${user.rue} </p>
+			<p class="profil-text">Code Postal : ${user.cpo} </p>
+			<p class="profil-text">Ville : ${user.ville} </p>
+			<p class="profil-text">Credit : ${user.credit} </p>
+			
+			<p><a href="${pageContext.request.contextPath}/ModifierProfil"><button class="bouton-modifier">Modifier</button></a></p>
+		</div>
 	</div>
 		<div class="myListeArticles">
 			<c:forEach items="${listeArticles}" var="article" varStatus="status" >
