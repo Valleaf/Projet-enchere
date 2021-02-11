@@ -21,7 +21,7 @@ import javax.servlet.DispatcherType;
  * Servlet Filter implementation class SecurityFilter
  */
 @WebFilter(dispatcherTypes = {DispatcherType.REQUEST }
-, urlPatterns = { "/DetailsVente/*","/Encherir/*","/MaPageProfil/*","/Profil*","/RegisterArticle/*","/Delete/*" })
+, urlPatterns = { "/DetailsVente","/Encherir/*","/MaPageProfil","/Profil*","/RegisterArticle/*","/Delete/*" })
 public class SecurityFilter implements Filter {
 
     /**
@@ -47,13 +47,12 @@ public class SecurityFilter implements Filter {
 		
 		HttpSession session = httpRequest.getSession();
 		//des infos sur l'utilisateur connecté sont elles présentes dans la session ?
-		User utilisateur = (User) session.getAttribute("user");
 		
-		if(utilisateur == null) {
+		String isLoggedIn = (String) session.getAttribute("status");
+		if((isLoggedIn != null && !isLoggedIn.equals("Connecté"))|| isLoggedIn == null )  {
 			//intercepter la requete et établir une redirection
-			httpRequest.setAttribute("message", "Accès interdit par le filtre !");
 			httpRequest.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-			//httpResponse.sendRedirect(httpRequest.getContextPath() + "/index.jsp");
+			//httpResponse.sendRedirect(httpRequest.getContextPath() + "/Login");
 		}
 		else {
 			//laisser passer la requete
