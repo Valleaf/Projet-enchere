@@ -52,6 +52,7 @@ public class DetailsVente extends HttpServlet {
 			if (e.getPrixEnchere()==null) {
 				e = new Enchere();
 				e.setPrixEnchere(art.getPrixInitial());
+				e.setNoUser(art.getNoUtilisateur());
 			}
 			request.setAttribute("enchereActive", e);
 			if( t.before(art.getDateFin()) ) 
