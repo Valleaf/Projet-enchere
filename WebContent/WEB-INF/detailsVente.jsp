@@ -30,7 +30,7 @@
 				<div>date debut: <c:out value="${ dataArticle.dateDebut }" /></div>
 				<div>date fin: <c:out value="${ dataArticle.dateFin }" /></div>
 				<div>prix initial: <c:out value="${ dataArticle.prixInitial }" /></div>
-				<c:if test="${dataArticle.prixVente != null }">
+				<c:if test="${dataArticle.prixVente != null  && dataArticle.prixVente != 0 }">
 				<div>prix actuel: <c:out value="${ dataArticle.prixVente }" /></div>
 				</c:if>
 		
