@@ -54,11 +54,28 @@
 						</c:when> 
 					   	<c:when test="${ etatVente.equals('EC') }">
 					   		<div><fmt:formatDate value="${dateFin }" pattern="dd/MM/yyyy hh:mm" /></div>
-					   		<div><c:out value="${ article.prixVente }" /> points</div>
+					   		<c:choose>
+						   		<c:when test="${article.prixVente < article.prixInitial }">
+						   			<div><c:out value="${ article.prixInitial }" /> points</div>
+						   		</c:when>
+						   		<c:otherwise>
+						   			
+									<div><c:out value="${ article.prixVente }" /> points</div>
+						   		</c:otherwise>
+					   		</c:choose>
 					   	</c:when> 
 					   	<c:otherwise>
-					   		<div><c:out value="${ article.prixVente }" /> points</div>
-					   	</c:otherwise>
+					   						   		<div><fmt:formatDate value="${dateFin }" pattern="dd/MM/yyyy hh:mm" /></div>
+					   	
+<c:choose>
+						   		<c:when test="${article.prixVente < article.prixInitial }">
+						   			<div><c:out value="${ article.prixInitial }" /> points</div>
+						   		</c:when>
+						   		<c:otherwise>
+						   		
+									<div><c:out value="${ article.prixVente }" /> points</div>
+						   		</c:otherwise>
+					   		</c:choose>					   	</c:otherwise>
 					</c:choose>
 				</div>
 	
