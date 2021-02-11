@@ -82,7 +82,7 @@ public class ModifierProfil extends HttpServlet {
 		
 		pseudo = Verification.verifString(pseudo);
 		try {
-			if(Verification.isAlreadyTakenPseudo(pseudo) && um.selectionnerUnUtilisateur(pseudo).getPseudo() == ancienpseudo.getPseudo()) {
+			if(Verification.isAlreadyTakenPseudo(pseudo) && !(um.selectionnerUnUtilisateur(pseudo).getPseudo().equals(ancienpseudo.getPseudo()))) {
 				listeMsgError.add("Ce pseudo existe deja");
 			}
 		} catch (BusinessException e2) {
@@ -90,7 +90,7 @@ public class ModifierProfil extends HttpServlet {
 			e2.printStackTrace();
 		}
 		
-		if(Verification.isAlreadyTakenEmail(email)) {
+		if(Verification.isAlreadyTakenEmail(email) && !(ancienpseudo.getEmail().equals(email))) {
 			listeMsgError.add("Cet adresse email est deja prise");
 		}
 		

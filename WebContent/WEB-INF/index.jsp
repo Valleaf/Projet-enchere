@@ -40,8 +40,9 @@
 					   	<c:otherwise>
 							<div class="etatVente terminer"><c:out value="VENTE TERMINEE" /></div>
 					   	</c:otherwise>
-					</c:choose>				
-					<img alt="placeholder Image" src="${pageContext.request.contextPath}/img/article.png">
+					</c:choose>
+					<img src="${article.image}" alt="Image de l'enchere" width="100px">
+					<%-- <img alt="placeholder Image" src="${pageContext.request.contextPath}/img/article.png">--%>
 				</div>
 				<div class="articleData">
 					<div><c:out value="${ article.nomArticle }" /></div>
@@ -53,7 +54,7 @@
 						</c:when> 
 					   	<c:when test="${ etatVente.equals('EC') }">
 					   		<div><fmt:formatDate value="${dateFin }" pattern="dd/MM/yyyy hh:mm" /></div>
-					   		<div><c:out value="${ article.prixInitial }" /> points</div>
+					   		<div><c:out value="${ article.prixVente }" /> points</div>
 					   	</c:when> 
 					   	<c:otherwise>
 					   		<div><c:out value="${ article.prixVente }" /> points</div>

@@ -16,7 +16,7 @@
 		<jsp:param value="${session.status}" name="isLoggedIn"/>
 </jsp:include>
 <body class="container-profil">
-<h1 class="page-title">Profil TEST</h1>
+<h1 class="page-title">Profil </h1>
 <div class="account-box">
 <p class="profil-text"> Pseudo : ${dataUser.pseudo}</p>
 <p class="profil-text"> Nom : ${dataUser.nom} </p>

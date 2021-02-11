@@ -21,6 +21,9 @@
   </a>
 <div class="listeArticles">
 		<div class="article">
+			<div class="articleImgBoxDetails">
+								<img src="${dataArticle.image}" alt="Image de l'enchere">
+			</div>
 			<div class="articleData">
 				<div>nom: <c:out value="${ dataArticle.nomArticle }" /></div>
 				<div>desc: <c:out value="${ dataArticle.description }" /></div>
@@ -37,7 +40,6 @@
 				<c:if test="${(0 <=  (user.credit-enchereActive.prixEnchere + 1 ))&& !over && started}">
 				Enchere possible :
 				<div>
-				<%--TODO  Message d'erreur quand pas assez de credits--%>
 				<form action="${pageContext.request.contextPath}/Encherir">
 				  <input type="hidden"  name="articleID" value="${dataArticle.noArticle}"> 
 				  <c:if test="${enchereActive.noUser == user.numero }">
@@ -52,9 +54,7 @@
 				<div><a href="${pageContext.request.contextPath}/Profils?id=${ dataArticle.noUtilisateur }">Utilisateur: <c:out value="${ dataArticle.noUtilisateur }" /></a></div>
 				
 			</div>
-			<div class="articleImgBox">
-					<img src="${dataArticle.image}" alt="Image de l'enchere" width="300px">
-			</div>
+		
 		</div>
 </div>
 

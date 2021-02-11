@@ -207,7 +207,7 @@ public class Verification {
 		}
 		
 		if(!Verification.string(prenom)) {
-			listeMsgError.add("Nom vide ou trop long");
+			listeMsgError.add("Prenom vide ou trop long");
 			vrai = false;
 		}
 

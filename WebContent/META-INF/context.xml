@@ -7,10 +7,10 @@
 	driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 	type="javax.sql.DataSource"
 	
-	url="jdbc:sqlserver://localhost;databasename=ENCHERE_BDD;encrypt=true;trustServerCertificate=true;"
-		username="sa"
-		password="Monkeysama2012"
+	url="jdbc:sqlserver://localhost;databasename=ENCHERES_BDD;encrypt=true;trustServerCertificate=true;"
+		username="userDB"
+		password="Pass00"
 	maxIdle="30"
-	maxWaitMilis="10000"
+	maxWaitMilis="3000"
 />
 </Context>
