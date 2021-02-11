@@ -152,6 +152,8 @@ border-top-right-radius: 0;
 	margin: 5px  0;
 }
 /* cadres d'article page principal */
+
+
 .detailsArticles{
 	display:flex;
 	flex-flow: row wrap;
@@ -256,6 +258,22 @@ border-top-right-radius: 0;
 	left: 0;
 }
 
+.myArticleImgBox{
+	width: 350px;
+	height: 308px;
+	position: relative;
+}
+
+.myArticleImgBox > img{
+	width: 348px;
+	height: 308px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
 .etatVente{
 	position: absolute;
 	border-top-left-radius: 7px;
@@ -335,12 +353,47 @@ background: #f4f0ec;
 /*
 Partie pour la page Mon Profil
 */
+.profilContainer{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	max-height: calc(100vh - 150px);
+	width: 100vw;	
+}
+
+.myListeArticles{
+	display:flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	overflow: auto;
+	scrollbar-width: thin;
+	height: calc(100vh - 140px);
+	padding: 0 10px;
+}
+
+.myListeArticles::-webkit-scrollbar {
+	width: 8px;
+}
+
+.myListeArticles::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.5);        /* color of the tracking area */
+  border-radius: 20px;
+}
+
+.myListeArticles::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.8);    /* color of the scroll thumb */
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);     /* roundness of the scroll thumb */
+}
+
 .container-profil{
-display: flex;
+	display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  max-height: calc(100vh - 450px);
 
 }
 
