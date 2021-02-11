@@ -152,7 +152,17 @@ border-top-right-radius: 0;
 	margin: 5px  0;
 }
 /* cadres d'article page principal */
-
+.detailsArticles{
+	display:flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	overflow: auto;
+	scrollbar-width: thin;
+	height: calc(100vh - 140px);
+	padding: 0 10px;
+	
+}
 .listeArticles{
 	display:flex;
 	flex-flow: row wrap;

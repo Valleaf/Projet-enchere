@@ -19,10 +19,10 @@
 
 <body>
   </a>
-<div class="listeArticles">
+<div class="detailsArticles">
 		<div class="article">
 			<div class="articleImgBoxDetails">
-								<img src="${dataArticle.image}" alt="Image de l'enchere">
+			<img src="${dataArticle.image}" alt="Image de l'enchere">
 			</div>
 			<div class="articleData">
 				<div>nom: <c:out value="${ dataArticle.nomArticle }" /></div>
